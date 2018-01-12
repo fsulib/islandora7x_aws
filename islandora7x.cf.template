@@ -16,43 +16,43 @@
 			"Default": "Development",
 			"AllowedValues": ["Development", "Testing", "Production"]
 		},
-		"DatabaseRootUsername": {
+		"DatabaseRootUser": {
 			"Type": "String",
 			"Description": "The username for the database root user."
 		},
-		"DatabaseRootPassword": {
+		"DatabaseRootPass": {
 			"Type": "String",
 			"Description": "The password for the database root user."
 		},
-		"DrupalDatabaseUsername": {
+		"DrupalDatabaseUser": {
 			"Type": "String",
 			"Description": "The username for the Drupal database."
 		},
-		"DrupalDatabasePassword": {
+		"DrupalDatabasePass": {
 			"Type": "String",
 			"Description": "The password for the Drupal database."
 		},
-		"FedoraDatabaseUsername": {
+		"FedoraDatabaseUser": {
 			"Type": "String",
 			"Description": "The username for the Fedora database."
 		},
-		"FedoraDatabasePassword": {
+		"FedoraDatabasePass": {
 			"Type": "String",
 			"Description": "The password for the Fedora database."
 		},
-		"FedoraDrupalFilterUsername": {
+		"FedoraFilterUser": {
 			"Type": "String",
 			"Description": "The username for the Fedora Drupal filter."
 		},
-		"FedoraDrupalFilterPassword": {
+		"FedoraFilterPass": {
 			"Type": "String",
 			"Description": "The password for the Fedora Drupal filter."
 		},
-		"TomcatManagerUsername": {
+		"TomcatManagerUser": {
 			"Type": "String",
 			"Description": "The username for the Tomcat Manager."
 		},
-		"TomcatManagerPassword": {
+		"TomcatManagerPass": {
 			"Type": "String",
 			"Description": "The password for the Tomcat Manager."
 		}
