@@ -5,9 +5,9 @@
 			"Type": "String",
 			"Description": "The name of the private key file to use for SSH/RDP access to the bastion host."
 		},
-		"BastionSecurityCIDR": {
+		"RestrictedInterfaceCIDR": {
 			"Type": "String",
-			"Description": "The CIDR range allowed to connect to the bastion host.",
+			"Description": "The CIDR range allowed to connect to Fedora and Solr.",
 			"Default": "0.0.0.0/0"
 		},
 		"DeploymentEnvironment": {
@@ -262,55 +262,6 @@
 				}]
 			}
 		},
-		"NATInstance": {
-			"Type": "AWS::EC2::Instance",
-			"DependsOn": ["AttachGateway", "PublicRoute", "PublicSubnet1"],
-			"Properties": {
-				"ImageId": {
-					"Fn::FindInMap": [
-						"AmazonLinuxAMI", {
-							"Ref": "AWS::Region"
-						},
-						"AMI"
-					]
-				},
-				"InstanceType": "t2.small",
-				"NetworkInterfaces": [{
-					"DeviceIndex": "0",
-					"AssociatePublicIpAddress": "true",
-					"SubnetId": {
-						"Ref": "PublicSubnet1"
-					},
-					"GroupSet": [{
-						"Ref": "NATSecurityGroup"
-					}]
-				}],
-				"SourceDestCheck": "false",
-				"Tags": [{
-					"Key": "Name",
-					"Value": "NAT"
-				}],
-				"UserData": {
-					"Fn::Base64": {
-						"Fn::Join": [
-							"\n", [
-								"#!/bin/bash",
-								"yum -y update",
-								"echo 1 > /proc/sys/net/ipv4/ip_forward",
-								"echo 0 > /proc/sys/net/ipv4/conf/eth0/send_redirects",
-								"/sbin/iptables -t nat -A POSTROUTING -o eth0 -s 0.0.0.0/0 -j MASQUERADE",
-								"/sbin/iptables-save > /etc/sysconfig/iptables",
-								"mkdir -p /etc/sysctl.d/",
-								"cat <<EOF > /etc/sysctl.d/nat.conf",
-								"net.ipv4.ip_forward = 1",
-								"net.ipv4.conf.eth0.send_redirects = 0",
-								"EOF \n"
-							]
-						]
-					}
-				}
-			}
-		},
 		"NATSecurityGroup": {
 			"Type": "AWS::EC2::SecurityGroup",
 			"DependsOn": "AttachGateway",
@@ -381,7 +332,7 @@
 				}]
 			}
 		},
-		"BastionServer": {
+		"Bastion": {
 			"Type": "AWS::EC2::Instance",
 			"DependsOn": ["NATInstance"],
 			"Properties": {
@@ -409,14 +360,135 @@
 				}],
 				"Tags": [{
 					"Key": "Name",
-					"Value": "BastionServer"
+					"Value": "Bastion"
 				}],
 				"UserData": {
 					"Fn::Base64": {
 						"Fn::Join": [
-							"", [
-								"#!/bin/bash -ex \n",
-								"yum -y update \n"
+							"\n", [
+								"#!/bin/bash",
+								"wget https://raw.githubusercontent.com/fsulib/islandora7x_aws/master/UserData/bastion.sh",
+								"sh bastion.sh"
+							]
+						]
+					}
+				}
+			}
+		},
+		"Drupal": {
+			"Type": "AWS::EC2::Instance",
+			"Properties": {
+				"ImageId": {
+					"Fn::FindInMap": [
+						"AmazonLinuxAMI", {
+							"Ref": "AWS::Region"
+						},
+						"AMI"
+					]
+				},
+				"InstanceType": "t2.nano",
+				"NetworkInterfaces": [{
+					"DeviceIndex": "0",
+					"AssociatePublicIpAddress": "true",
+					"SubnetId": {
+						"Ref": "PublicSubnet1"
+					},
+					"GroupSet": [{
+						"Ref": "NATSecurityGroup"
+					}]
+				}],
+				"SourceDestCheck": "false",
+				"Tags": [{
+					"Key": "Name",
+					"Value": "Drupal"
+				}],
+				"UserData": {
+					"Fn::Base64": {
+						"Fn::Join": [
+							"\n", [
+								"#!/bin/bash",
+								"wget https://raw.githubusercontent.com/fsulib/islandora7x_aws/master/UserData/drupal.sh",
+								"sh drupal.sh"
+							]
+						]
+					}
+				}
+			}
+		}
+		"Fedora": {
+			"Type": "AWS::EC2::Instance",
+			"Properties": {
+				"ImageId": {
+					"Fn::FindInMap": [
+						"AmazonLinuxAMI", {
+							"Ref": "AWS::Region"
+						},
+						"AMI"
+					]
+				},
+				"InstanceType": "t2.nano",
+				"NetworkInterfaces": [{
+					"DeviceIndex": "0",
+					"AssociatePublicIpAddress": "true",
+					"SubnetId": {
+						"Ref": "PublicSubnet1"
+					},
+					"GroupSet": [{
+						"Ref": "NATSecurityGroup"
+					}]
+				}],
+				"SourceDestCheck": "false",
+				"Tags": [{
+					"Key": "Name",
+					"Value": "Fedora"
+				}],
+				"UserData": {
+					"Fn::Base64": {
+						"Fn::Join": [
+							"\n", [
+								"#!/bin/bash",
+								"wget https://raw.githubusercontent.com/fsulib/islandora7x_aws/master/UserData/fedora.sh",
+								"sh fedora.sh"
+							]
+						]
+					}
+				}
+			}
+		}
+		"Solr": {
+			"Type": "AWS::EC2::Instance",
+			"Properties": {
+				"ImageId": {
+					"Fn::FindInMap": [
+						"AmazonLinuxAMI", {
+							"Ref": "AWS::Region"
+						},
+						"AMI"
+					]
+				},
+				"InstanceType": "t2.nano",
+				"NetworkInterfaces": [{
+					"DeviceIndex": "0",
+					"AssociatePublicIpAddress": "true",
+					"SubnetId": {
+						"Ref": "PublicSubnet1"
+					},
+					"GroupSet": [{
+						"Ref": "NATSecurityGroup"
+					}]
+				}],
+				"SourceDestCheck": "false",
+				"Tags": [{
+					"Key": "Name",
+					"Value": "Solr"
+				}],
+				"UserData": {
+					"Fn::Base64": {
+						"Fn::Join": [
+							"\n", [
+								"#!/bin/bash",
+								"wget https://raw.githubusercontent.com/fsulib/islandora7x_aws/master/UserData/solr.sh",
+								"sh solr.sh"
 							]
 						]
 					}
