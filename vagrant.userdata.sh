@@ -12,5 +12,5 @@ export FEDORA_FILTER_PASS=fedorafilterp
 export TOMCAT_MANAGER_USER=tomcatmanu
 export TOMCAT_MANAGER_PASS=tomcatmanp
 
-wget https://raw.githubusercontent.com/fsulib/islandora7x_aws/master/UserData/drupal.sh -O /root/drupal.sh
-sh /root/drupal.sh
+wget https://raw.githubusercontent.com/fsulib/islandora7x_aws/master/UserData/fedora.sh -O /root/fedora.sh
+sh /root/fedora.sh
