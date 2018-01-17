@@ -1,1 +1,1 @@
-echo "The TESTVAR is ${TESTVAR}"
+echo "The DB ROOT USER is ${DATABASE_ROOT_USER}"
