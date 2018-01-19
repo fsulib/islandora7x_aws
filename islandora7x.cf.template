@@ -367,7 +367,6 @@
                         "Fn::Join": [
                             "", [
                                 "#!/bin/bash \n",
-				"cd \n",
                                 "wget https://raw.githubusercontent.com/fsulib/islandora7x_aws/master/UserData/bastion.sh -O /root/bastion.sh \n",
                                 "sh /root/bastion.sh"
                             ]
@@ -412,7 +411,6 @@
                                 "export DATABASE_ROOT_PASS=", { "Ref" : "DatabaseRootPass" }, "\n",
                                 "export DRUPAL_DATABASE_USER=", { "Ref" : "DrupalDatabaseUser" }, "\n",
                                 "export DRUPAL_DATABASE_PASS=", { "Ref" : "DrupalDatabasePass" }, "\n",
-				"cd \n",
                                 "wget https://raw.githubusercontent.com/fsulib/islandora7x_aws/master/UserData/drupal.sh -O /root/drupal.sh \n",
                                 "sh /root/drupal.sh"
                             ]
@@ -461,7 +459,6 @@
                                 "export FEDORA_FILTER_PASS=", { "Ref" : "FedoraFilterPass" }, "\n",
                                 "export TOMCAT_MANAGER_USER=", { "Ref" : "TomcatManagerUser" }, "\n",
                                 "export TOMCAT_MANAGER_PASS=", { "Ref" : "TomcatManagerPass" }, "\n",
-				"cd \n",
                                 "wget https://raw.githubusercontent.com/fsulib/islandora7x_aws/master/UserData/fedora.sh -O /root/fedora.sh \n",
                                 "sh /root/fedora.sh"
                             ]
@@ -502,7 +499,6 @@
                         "Fn::Join": [
                             "", [
                                 "#!/bin/bash \n",
-				"cd \n",
                                 "wget https://raw.githubusercontent.com/fsulib/islandora7x_aws/master/UserData/solr.sh -O /root/solr.sh \n",
                                 "sh /root/solr.sh"
                             ]
