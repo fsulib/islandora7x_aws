@@ -368,8 +368,8 @@
                             "", [
                                 "#!/bin/bash \n",
 				"cd \n",
-                                "wget https://raw.githubusercontent.com/fsulib/islandora7x_aws/master/UserData/bastion.sh \n",
-                                "sh bastion.sh"
+                                "wget https://raw.githubusercontent.com/fsulib/islandora7x_aws/master/UserData/bastion.sh -O /root/bastion.sh \n",
+                                "sh /root/bastion.sh"
                             ]
                         ]
                     }
@@ -413,8 +413,8 @@
                                 "export DRUPAL_DATABASE_USER=", { "Ref" : "DrupalDatabaseUser" }, "\n",
                                 "export DRUPAL_DATABASE_PASS=", { "Ref" : "DrupalDatabasePass" }, "\n",
 				"cd \n",
-                                "wget https://raw.githubusercontent.com/fsulib/islandora7x_aws/master/UserData/drupal.sh \n",
-                                "sh drupal.sh"
+                                "wget https://raw.githubusercontent.com/fsulib/islandora7x_aws/master/UserData/drupal.sh -O /root/drupal.sh \n",
+                                "sh /root/drupal.sh"
                             ]
                         ]
                     }
@@ -462,8 +462,8 @@
                                 "export TOMCAT_MANAGER_USER=", { "Ref" : "TomcatManagerUser" }, "\n",
                                 "export TOMCAT_MANAGER_PASS=", { "Ref" : "TomcatManagerPass" }, "\n",
 				"cd \n",
-                                "wget https://raw.githubusercontent.com/fsulib/islandora7x_aws/master/UserData/fedora.sh \n",
-                                "sh fedora.sh"
+                                "wget https://raw.githubusercontent.com/fsulib/islandora7x_aws/master/UserData/fedora.sh -O /root/fedora.sh \n",
+                                "sh /root/fedora.sh"
                             ]
                         ]
                     }
@@ -503,8 +503,8 @@
                             "", [
                                 "#!/bin/bash \n",
 				"cd \n",
-                                "wget https://raw.githubusercontent.com/fsulib/islandora7x_aws/master/UserData/solr.sh \n",
-                                "sh solr.sh"
+                                "wget https://raw.githubusercontent.com/fsulib/islandora7x_aws/master/UserData/solr.sh -O /root/solr.sh \n",
+                                "sh /root/solr.sh"
                             ]
                         ]
                     }
