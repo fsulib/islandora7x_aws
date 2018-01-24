@@ -1,4 +1,5 @@
 echo "Build Parameters:" >> /root/build-params.txt
+echo "DatabaseEndpoint: ${DATABASE_ENDPOINT}" >> /root/build-params.txt
 echo "DatabaseRootUser: ${DATABASE_ROOT_USER}" >> /root/build-params.txt
 echo "DatabaseRootPass: ${DATABASE_ROOT_PASS}" >> /root/build-params.txt
 echo "FedoraDatabaseUser: ${FEDORA_DATABASE_USER}" >> /root/build-params.txt
