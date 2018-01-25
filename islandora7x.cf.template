@@ -656,6 +656,22 @@
             "Ref": "PrivateSSHSecurityGroup"
           }]
         }],
+        "BlockDeviceMappings" : [
+          {
+            "DeviceName" : "/dev/sdb",
+            "Ebs" : {
+              "VolumeSize" : "100",
+              "DeleteOnTermination" : "true",
+            }
+          },
+          {
+            "DeviceName" : "/dev/sdc",
+            "Ebs" : {
+              "VolumeSize" : "50",
+              "DeleteOnTermination" : "true",
+            }
+          }
+        ],
         "Tags": [{
           "Key": "Name",
           "Value": "Solr Server"
