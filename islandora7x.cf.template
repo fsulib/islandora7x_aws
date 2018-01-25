@@ -128,6 +128,25 @@
 
   },
 
+  "Metadata" : {
+    "AWS::CloudFormation::Interface" : {
+      "ParameterGroups" : [{
+        "Label" : {"default": "SSH Bastion Information"},
+        "Parameters" : ["BastionInstanceType", "KeyName", "SSHLocation"]
+      },{
+        "Label" : {"default": "Database Information"},
+        "Parameters" : ["DatabaseRootUser", "DatabaseRootPass"]
+      }],
+      "ParameterLabels" : {
+        "Bastion InstanceType": {"default": "Bastion Server size:"},
+        "KeyName": {"default": "Key pair:"},
+        "SSHLocation": {"default": "CIDR range:"},
+        "DatabaseRootUser": {"default": "Mysql Root User:"},
+        "DatabaseRootPass": {"default": "Mysql Root Password:"},
+      }
+    }
+  },
+
   "Mappings" : {
     "AWSInstanceType2Arch" : {
       "t1.micro"    : { "Arch" : "PV64"   },
