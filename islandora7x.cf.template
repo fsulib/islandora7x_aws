@@ -499,6 +499,23 @@
       }
     },
 
+    "SolrServerSecurityGroup" : {
+      "Type": "AWS::EC2::SecurityGroup",
+      "Properties" : {
+        "GroupDescription": "Allow Access to Solr interface",
+        "VpcId" : {
+          "Ref": "VPC"
+        },
+        "Tags" : [{
+          "Key": "Name",
+          "Value": "SolrServerSecurityGroup"       
+        }],
+        "SecurityGroupIngress" : [
+          {"IpProtocol" : "tcp", "FromPort" : "8983", "ToPort" : "8983","CidrIp" : "10.50.0.101/32"}
+        ]
+      }
+    },
+
     "MySQLRDS" : {
      "Type" : "AWS::RDS::DBInstance",
      "Properties" : {
