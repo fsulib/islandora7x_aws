@@ -660,14 +660,14 @@
           {
             "DeviceName" : "/dev/sdb",
             "Ebs" : {
-              "VolumeSize" : "100",
+              "VolumeSize" : "10",
               "DeleteOnTermination" : "true",
             }
           },
           {
             "DeviceName" : "/dev/sdc",
             "Ebs" : {
-              "VolumeSize" : "50",
+              "VolumeSize" : "5",
               "DeleteOnTermination" : "true",
             }
           }
