@@ -669,9 +669,10 @@
           "SubnetId": {
             "Ref": "PublicSubnet1"
           },
-          "GroupSet": [{
-            "Ref": "PrivateSSHSecurityGroup"
-          }]
+          "GroupSet": [
+            { "Ref": "PrivateSSHSecurityGroup" },
+            { "Ref": "SolrServerSecurityGroup" }
+          ]
         }],
         "BlockDeviceMappings" : [
           {
