@@ -586,6 +586,22 @@
             "Ref": "PrivateSSHSecurityGroup"
           }]
         }],
+        "BlockDeviceMappings" : [
+          {
+            "DeviceName" : "/dev/sdb",
+            "Ebs" : {
+              "VolumeSize" : "10",
+              "DeleteOnTermination" : "true",
+            }
+          },
+          {
+            "DeviceName" : "/dev/sdc",
+            "Ebs" : {
+              "VolumeSize" : "5",
+              "DeleteOnTermination" : "true",
+            }
+          }
+        ],
         "Tags": [{
           "Key": "Name",
           "Value": "Drupal Server"
@@ -628,6 +644,22 @@
             "Ref": "PrivateSSHSecurityGroup"
           }]
         }],
+        "BlockDeviceMappings" : [
+          {
+            "DeviceName" : "/dev/sdb",
+            "Ebs" : {
+              "VolumeSize" : "10",
+              "DeleteOnTermination" : "true",
+            }
+          },
+          {
+            "DeviceName" : "/dev/sdc",
+            "Ebs" : {
+              "VolumeSize" : "5",
+              "DeleteOnTermination" : "true",
+            }
+          }
+        ],
         "Tags": [{
           "Key": "Name",
           "Value": "Fedora Server"
