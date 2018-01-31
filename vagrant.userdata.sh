@@ -1,16 +1,31 @@
 #!/bin/bash
 
-# Export all relevant username/password CF params
-export DATABASE_ROOT_USER=dbrootu
-export DATABASE_ROOT_PASS=dbrootp
-export DRUPAL_DATABASE_USER=drupaldbu
-export DRUPAL_DATABASE_PASS=drupaldbp
-export FEDORA_DATABASE_USER=fedoradbu
-export FEDORA_DATABASE_PASS=fedoradbp
-export FEDORA_FILTER_USER=fedorafilteru
-export FEDORA_FILTER_PASS=fedorafilterp
-export TOMCAT_MANAGER_USER=tomcatmanu
-export TOMCAT_MANAGER_PASS=tomcatmanp
+yum -y update > /root/updates.txt
+yum -y install httpd mysql mysql-server ImageMagick
+yum -y install php php-devel php-gd php-xml php-soap php-mysql php-mbstring > /root/installs.php.txt
 
-wget https://raw.githubusercontent.com/fsulib/islandora7x_aws/master/UserData/fedora.sh -O /root/fedora.sh
-sh /root/fedora.sh
+# Configure MySQL
+service mysqld start
+chkconfig mysqld on
+mysql -e "CREATE DATABASE islandoradb;"
+mysql -e "CREATE USER 'islandora'@'localhost' IDENTIFIED BY 'islandora';"
+mysql -e "GRANT ALL PRIVILEGES ON islandoradb.* TO islandora@localhost;"
+mysql -e "FLUSH PRIVILEGES;"
+
+# Configure Drupal
+curl -sS https://getcomposer.org/installer -o /root/composer-installer.php 
+php /root/composer-installer.php --install-dir=/root
+php /root/composer.phar global require drush/drush:7.1.0
+rm -rf /var/www/html
+/root/.composer/vendor/bin/drush dl drupal-7.x --destination=/var/www/ --drupal-project-rename=html
+cp /var/www/html/sites/default/default.settings.php /var/www/html/sites/default/settings.php
+
+/root/.composer/vendor/bin/drush --root=/var/www/html --uri=default -y si standard --account-name=admin --account-pass=admin --db-url=mysql://islandora:islandora@localhost/islandoradb --site-name=Islandora
+
+chmod -R 777 /var/www/html
+
+# Configure apache
+echo "AddHandler php5-script .php" >> /etc/httpd/conf/httpd.conf
+echo "AddType text/html .php" >> /etc/httpd/conf/httpd.conf
+sed -i -e 's/AllowOverride\ None/AllowOverride\ All/g' /etc/httpd/conf/httpd.conf
+service httpd restart

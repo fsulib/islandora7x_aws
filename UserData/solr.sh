@@ -1,5 +1,3 @@
-yum -y update > /root/updates.txt
-
 # Mount external devices 
 mkfs -t ext4 /dev/xvdb
 mkfs -t ext4 /dev/xvdc
@@ -21,7 +19,9 @@ rm -f /etc/localtime
 cd /etc
 ln -s /usr/share/zoneinfo/US/Eastern localtime
 
-# Upgrade java
+
+# Run updates & installations 
+yum -y update > /root/updates.txt
 yum -y install java-1.8.0 >> /root/updates.txt
 yum -y remove java-1.7.0-openjdk >> /root/updates.txt
 
