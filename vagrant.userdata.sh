@@ -23,7 +23,7 @@ cp /var/www/html/sites/default/default.settings.php /var/www/html/sites/default/
 /root/.composer/vendor/bin/drush --root=/var/www/html --uri=default -y si standard --account-name=admin --account-pass=admin --db-url=mysql://islandora:islandora@localhost/islandoradb --site-name=Islandora
 
 mysql -e "ALTER DATABASE islandoradb CHARACTER SET = utf8mb4 COLLATE = utf8mb4_unicode_ci;"
-
+sed -i -e "s/'prefix'\ =>\ '',/'prefix'\ =>\ '',\ 'charset'\ =>\ 'utf8mb4',\ 'collation'\ =>\ 'utf8mb4_general_ci',/g" /var/www/html/sites/default/settings.php
 chmod -R 777 /var/www/html
 
 # Configure apache

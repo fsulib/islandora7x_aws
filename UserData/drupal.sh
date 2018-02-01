@@ -38,7 +38,7 @@ mysql -u $DATABASE_ROOT_USER -p$DATABASE_ROOT_PASSWORD -h $DATABASE_ENDPOINT -e 
 mysql -u $DATABASE_ROOT_USER -p$DATABASE_ROOT_PASSWORD -h $DATABASE_ENDPOINT -e "FLUSH PRIVILEGES;"
 
 # Configure Drupal
-COMPOSER_HOME=/root
+export COMPOSER_HOME=/root
 curl -sS https://getcomposer.org/installer -o /root/composer-installer.php 
 php /root/composer-installer.php --install-dir=/root
 php /root/composer.phar global require drush/drush:7.1.0

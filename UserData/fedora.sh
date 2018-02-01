@@ -32,3 +32,4 @@ ln -s /usr/share/zoneinfo/US/Eastern localtime
 
 # Run updates & installations
 yum -y update > /root/updates.txt
+yum -y install mysql > /root/installs.txt
