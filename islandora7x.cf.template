@@ -498,6 +498,23 @@
         ]
       }
     },
+    
+    "WebServerSecurityGroup" : {
+      "Type": "AWS::EC2::SecurityGroup",
+      "Properties" : {
+        "GroupDescription": "Allow Access to Web Server",
+        "VpcId" : {
+          "Ref": "VPC"
+        },
+        "Tags" : [{
+          "Key": "Name",
+          "Value": "WebServerSecurityGroup"       
+        }],
+        "SecurityGroupIngress" : [
+          {"IpProtocol" : "tcp", "FromPort" : "80", "ToPort" : "80","CidrIp" : "0.0.0.0/0"}
+        ]
+      }
+    },
 
     "SolrServerSecurityGroup" : {
       "Type": "AWS::EC2::SecurityGroup",
@@ -583,7 +600,8 @@
             "Ref": "PublicSubnet1"
           },
           "GroupSet": [{
-            "Ref": "PrivateSSHSecurityGroup"
+            { "Ref": "PrivateSSHSecurityGroup" },
+            { "Ref": "WebServerSecurityGroup" }
           }]
         }],
         "BlockDeviceMappings" : [
