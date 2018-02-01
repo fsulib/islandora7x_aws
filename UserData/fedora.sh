@@ -36,7 +36,11 @@ yum -y remove java-1.7.0-openjdk >> /root/updates.txt
 yum -y install mysql java-1.8.0 > /root/installs.txt
 
 # Configure MySQL
-mysql
+mysql -u $DATABASE_ROOT_USER -p$DATABASE_ROOT_PASSWORD -h $DATABASE_ENDPOINT -e "CREATE DATABASE fedoradb;"
+mysql -u $DATABASE_ROOT_USER -p$DATABASE_ROOT_PASSWORD -h $DATABASE_ENDPOINT -e "CREATE USER '${FEDORA_DATABASE_USER}'@'10.50.0.102' IDENTIFIED BY '${FEDORA_DATABASE_PASS}';"
+mysql -u $DATABASE_ROOT_USER -p$DATABASE_ROOT_PASSWORD -h $DATABASE_ENDPOINT -e "GRANT ALL PRIVILEGES ON fedoradb.* TO ${FEDORA_DATABASE_USER}@10.50.0.102;"
+mysql -u $DATABASE_ROOT_USER -p$DATABASE_ROOT_PASSWORD -h $DATABASE_ENDPOINT -e "FLUSH PRIVILEGES;"
+
 
 # Configure Fedora Commons
 curl -sS http://downloads.sourceforge.net/fedora-commons/fcrepo-installer-3.8.1.jar -o /root/fcrepo-installer-3.8.1.jar 

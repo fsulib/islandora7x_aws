@@ -42,7 +42,7 @@ mkdir /root/.composer
 export COMPOSER_HOME=/root/.composer
 curl -sS https://getcomposer.org/installer -o /root/composer-installer.php 
 php /root/composer-installer.php --install-dir=/root/.composer
-php /root/composer.phar global require drush/drush:7.1.0
+php /root/.composer/composer.phar global require drush/drush:7.1.0
 rm -rf /var/www/html
 /root/.composer/vendor/bin/drush dl drupal-7.x --destination=/var/www/ --drupal-project-rename=html
 cp /var/www/html/sites/default/default.settings.php /var/www/html/sites/default/settings.php
