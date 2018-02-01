@@ -599,10 +599,10 @@
           "SubnetId": {
             "Ref": "PublicSubnet1"
           },
-          "GroupSet": [{
+          "GroupSet": [
             { "Ref": "PrivateSSHSecurityGroup" },
             { "Ref": "WebServerSecurityGroup" }
-          }]
+          ]
         }],
         "BlockDeviceMappings" : [
           {
