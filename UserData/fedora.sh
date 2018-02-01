@@ -32,4 +32,8 @@ ln -s /usr/share/zoneinfo/US/Eastern localtime
 
 # Run updates & installations
 yum -y update > /root/updates.txt
-yum -y install mysql > /root/installs.txt
+yum -y remove java-1.7.0-openjdk >> /root/updates.txt
+yum -y install mysql java-1.8.0 > /root/installs.txt
+
+# Configure Fedora Commons
+curl -sS http://downloads.sourceforge.net/fedora-commons/fcrepo-installer-3.8.1.jar -o /root/fcrepo-installer-3.8.1.jar 
