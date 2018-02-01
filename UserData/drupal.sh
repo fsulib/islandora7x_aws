@@ -47,6 +47,8 @@ rm -rf /var/www/html
 /root/.composer/vendor/bin/drush dl drupal-7.x --destination=/var/www/ --drupal-project-rename=html
 cp /var/www/html/sites/default/default.settings.php /var/www/html/sites/default/settings.php
 /root/.composer/vendor/bin/drush --root=/var/www/html --uri=default -y si standard --account-name=admin --account-pass=admin --db-url=mysql://$DRUPAL_DATABASE_USER:$DRUPAL_DATABASE_PASSWORD@10.50.0.101/drupaldb --site-name=Islandora
+mysql -u $DATABASE_ROOT_USER -p$DATABASE_ROOT_PASSWORD -h $DATABASE_ENDPOINT -e "ALTER DATABASE islandoradb CHARACTER SET = utf8mb4 COLLATE = utf8mb4_unicode_ci;"
+sed -i -e "s/'prefix'\ =>\ '',/'prefix'\ =>\ '',\ 'charset'\ =>\ 'utf8mb4',\ 'collation'\ =>\ 'utf8mb4_general_ci',/g" /var/www/html/sites/default/settings.php
 chmod -R 777 /var/www/html
 
 # Configure apache
