@@ -83,19 +83,16 @@
       "AllowedPattern" : "[a-zA-Z0-9]*",
       "ConstraintDescription" : "must contain only alphanumeric characters"
     },
-    },
     "DrupalAdminEmail": {
       "Default": "no-reply@example.com",
       "Type": "String",
       "Description": "The email for the Drupal admin user"
-    },
     },
     "DrupalSiteName": {
       "Default": "Islandora",
       "Type": "String",
       "Description": "The name of the Drupal site"
     },
-
     "FedoraInstanceType" : {
       "Description" : "Fedora Server Instance Type",
       "Type" : "String",
@@ -165,7 +162,8 @@
         "Parameters" : ["DatabaseRootUser", "DatabaseRootPass", "RDSSubnet1AZ", "RDSSubnet2AZ"]
         },{
         "Label" : {"default": "Drupal Server Information"},
-        "Parameters" : ["DrupalInstanceType", "DrupalDatabaseUser", "DrupalDatabasePass", "DrupalAdminUser", "DrupalAdminPass", "DrupalAdminEmail", "DrupalSiteName"]
+        "Parameters" : ["DrupalInstanceType", "DrupalDatabaseUser", "DrupalDatabasePass", 
+         "DrupalAdminUser", "DrupalAdminPass", "DrupalAdminEmail", "DrupalSiteName"]
         },{
         "Label" : {"default": "Fedora Server Information"},
         "Parameters" : ["FedoraInstanceType", "FedoraDatabaseUser", "FedoraDatabasePass",
