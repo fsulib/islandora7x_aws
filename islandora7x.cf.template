@@ -69,6 +69,20 @@
       "AllowedPattern" : "[a-zA-Z0-9]*",
       "ConstraintDescription" : "must contain only alphanumeric characters"
     },
+    "DrupalAdminUser": {
+      "Default": "admin",
+      "Type": "String",
+      "Description": "The username for the Drupal admin user"
+    },
+    "DrupalAdminPass": {
+      "NoEcho": "true",      
+      "Type": "String",
+      "Description": "The password for the Drupal admin user",
+      "MinLength": "8",
+      "MaxLength": "41",
+      "AllowedPattern" : "[a-zA-Z0-9]*",
+      "ConstraintDescription" : "must contain only alphanumeric characters"
+    },
     "FedoraInstanceType" : {
       "Description" : "Fedora Server Instance Type",
       "Type" : "String",
@@ -156,8 +170,10 @@
         "RDSSubnet1AZ": {"default": "DB Availability Zone 1:"},
         "RDSSubnet2AZ": {"default": "DB Availability Zone 2:"},
         "DrupalInstanceType": {"default": "Drupal Server size:"},
-        "DrupalDatabaseUser": {"default": "Drupal User:"},
-        "DrupalDatabasePass": {"default": "Drupal Password:"},
+        "DrupalDatabaseUser": {"default": "Drupal Database User:"},
+        "DrupalDatabasePass": {"default": "Drupal Database Password:"},
+        "DrupalAdminUser": {"default": "Drupal Admin User:"},
+        "DrupalAdminPass": {"default": "Drupal Admin Password:"},
         "FedoraInstanceType": {"default": "Fedora Server size:"},
         "FedoraDatabaseUser": {"default": "Fedora User:"},
         "FedoraDatabasePass": {"default": "Fedora Password:"},
@@ -634,6 +650,8 @@
                "export DATABASE_ROOT_PASS=", { "Ref" : "DatabaseRootPass" }, "\n",
                "export DRUPAL_DATABASE_USER=", { "Ref" : "DrupalDatabaseUser" }, "\n",
                "export DRUPAL_DATABASE_PASS=", { "Ref" : "DrupalDatabasePass" }, "\n",
+               "export DRUPAL_ADMIN_USER=", { "Ref" : "DrupalAdminUser" }, "\n",
+               "export DRUPAL_ADMIN_PASS=", { "Ref" : "DrupalAdminPass" }, "\n",
                "wget https://raw.githubusercontent.com/fsulib/islandora7x_aws/master/UserData/drupal.sh -O /root/drupal.sh \n",
                "sh /root/drupal.sh > /root/build-log.txt 2>&1"
               ]
