@@ -22,8 +22,8 @@ ln -s /usr/share/zoneinfo/US/Eastern localtime
 
 # Run updates & installations 
 yum -y update > /root/updates.txt
-yum -y install java-1.8.0 >> /root/updates.txt
 yum -y remove java-1.7.0-openjdk >> /root/updates.txt
+yum -y install java-1.8.0 >> /root/updates.txt
 
 # Install Solr and configure it to auto start on boot
 cd /root
