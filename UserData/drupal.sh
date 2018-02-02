@@ -32,10 +32,10 @@ yum -y install httpd mysql ImageMagick > /root/installs.txt
 yum -y install php php-devel php-gd php-xml php-soap php-mysql php-mbstring > /root/installs.php.txt
 
 # Configure MySQL
-mysql --user="administrator" --password="12345678" --host="${DATABASE_ENDPOINT}" --execute="CREATE DATABASE drupaldb;" >> /root/mysql.log 2>&1
-mysql --user="administrator" --password="12345678" --host="${DATABASE_ENDPOINT}" --execute="CREATE USER '${DRUPAL_DATABASE_USER}'@'10.50.0.101' IDENTIFIED BY '${DRUPAL_DATABASE_PASS}';" >> /root/mysql.log 2>&1
-mysql --user="administrator" --password="12345678" --host="${DATABASE_ENDPOINT}" --execute="GRANT ALL PRIVILEGES ON drupaldb.* TO ${DRUPAL_DATABASE_USER}@10.50.0.101;" >> /root/mysql.log 2>&1
-mysql --user="administrator" --password="12345678" --host="${DATABASE_ENDPOINT}" --execute="FLUSH PRIVILEGES;" >> /root/mysql.log 2>&1
+mysql --user="${DATABASE_ROOT_USER}" --password="${DATABASE_ROOT_PASS}" --host="${DATABASE_ENDPOINT}" --execute="CREATE DATABASE drupaldb;" >> /root/mysql.log 2>&1
+mysql --user="${DATABASE_ROOT_USER}" --password="${DATABASE_ROOT_PASS}" --host="${DATABASE_ENDPOINT}" --execute="CREATE USER '${DRUPAL_DATABASE_USER}'@'10.50.0.101' IDENTIFIED BY '${DRUPAL_DATABASE_PASS}';" >> /root/mysql.log 2>&1
+mysql --user="${DATABASE_ROOT_USER}" --password="${DATABASE_ROOT_PASS}" --host="${DATABASE_ENDPOINT}" --execute="GRANT ALL PRIVILEGES ON drupaldb.* TO ${DRUPAL_DATABASE_USER}@10.50.0.101;" >> /root/mysql.log 2>&1
+mysql --user="${DATABASE_ROOT_USER}" --password="${DATABASE_ROOT_PASS}" --host="${DATABASE_ENDPOINT}" --execute="FLUSH PRIVILEGES;" >> /root/mysql.log 2>&1
 
 # Configure Drupal
 mkdir /root/.composer
@@ -46,8 +46,8 @@ php /root/.composer/composer.phar global require drush/drush:7.1.0
 rm -rf /var/www/html
 /root/.composer/vendor/bin/drush dl drupal-7.x --destination=/var/www/ --drupal-project-rename=html
 cp /var/www/html/sites/default/default.settings.php /var/www/html/sites/default/settings.php
-/root/.composer/vendor/bin/drush --root=/var/www/html --uri=default -y si standard --account-name=admin --account-pass=admin --db-url=mysql://$DRUPAL_DATABASE_USER:$DRUPAL_DATABASE_PASSWORD@$DATABASE_ENDPOINT/drupaldb --site-name=Islandora
-mysql --user="administrator" --password="12345678" --host="${DATABASE_ENDPOINT}" --execute="ALTER DATABASE drupaldb CHARACTER SET = utf8mb4 COLLATE = utf8mb4_unicode_ci;"
+/root/.composer/vendor/bin/drush --root=/var/www/html --uri=default -y si standard --account-name=admin --account-pass=admin --db-url=mysql://$DRUPAL_DATABASE_USER:$DRUPAL_DATABASE_PASS@$DATABASE_ENDPOINT/drupaldb --site-name=Islandora
+mysql --user="${DATABASE_ROOT_USER}" --password="${DATABASE_ROOT_PASS}" --host="${DATABASE_ENDPOINT}" --execute="ALTER DATABASE drupaldb CHARACTER SET = utf8mb4 COLLATE = utf8mb4_unicode_ci;"
 sed -i -e "s/'prefix'\ =>\ '',/'prefix'\ =>\ '',\ 'charset'\ =>\ 'utf8mb4',\ 'collation'\ =>\ 'utf8mb4_general_ci',/g" /var/www/html/sites/default/settings.php
 chmod -R 777 /var/www/html
 
