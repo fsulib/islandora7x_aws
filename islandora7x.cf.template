@@ -152,7 +152,7 @@
         "Parameters" : ["DatabaseRootUser", "DatabaseRootPass", "RDSSubnet1AZ", "RDSSubnet2AZ"]
         },{
         "Label" : {"default": "Drupal Server Information"},
-        "Parameters" : ["DrupalInstanceType", "DrupalDatabaseUser", "DrupalDatabasePass"]
+        "Parameters" : ["DrupalInstanceType", "DrupalDatabaseUser", "DrupalDatabasePass", "DrupalAdminUser", "DrupalAdminPass"]
         },{
         "Label" : {"default": "Fedora Server Information"},
         "Parameters" : ["FedoraInstanceType", "FedoraDatabaseUser", "FedoraDatabasePass",
