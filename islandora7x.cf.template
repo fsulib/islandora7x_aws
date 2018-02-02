@@ -83,6 +83,19 @@
       "AllowedPattern" : "[a-zA-Z0-9]*",
       "ConstraintDescription" : "must contain only alphanumeric characters"
     },
+    },
+    "DrupalAdminEmail": {
+      "Default": "no-reply@example.com",
+      "Type": "String",
+      "Description": "The email for the Drupal admin user"
+    },
+    },
+    "DrupalSiteName": {
+      "Default": "Islandora",
+      "Type": "String",
+      "Description": "The name of the Drupal site"
+    },
+
     "FedoraInstanceType" : {
       "Description" : "Fedora Server Instance Type",
       "Type" : "String",
@@ -152,7 +165,7 @@
         "Parameters" : ["DatabaseRootUser", "DatabaseRootPass", "RDSSubnet1AZ", "RDSSubnet2AZ"]
         },{
         "Label" : {"default": "Drupal Server Information"},
-        "Parameters" : ["DrupalInstanceType", "DrupalDatabaseUser", "DrupalDatabasePass", "DrupalAdminUser", "DrupalAdminPass"]
+        "Parameters" : ["DrupalInstanceType", "DrupalDatabaseUser", "DrupalDatabasePass", "DrupalAdminUser", "DrupalAdminPass", "DrupalAdminEmail", "DrupalSiteName"]
         },{
         "Label" : {"default": "Fedora Server Information"},
         "Parameters" : ["FedoraInstanceType", "FedoraDatabaseUser", "FedoraDatabasePass",
@@ -174,6 +187,8 @@
         "DrupalDatabasePass": {"default": "Drupal Database Password:"},
         "DrupalAdminUser": {"default": "Drupal Admin User:"},
         "DrupalAdminPass": {"default": "Drupal Admin Password:"},
+        "DrupalAdminEmail": {"default": "Drupal Admin Email Address:"},
+        "DrupalSiteName": {"default": "Drupal Site Name:"},
         "FedoraInstanceType": {"default": "Fedora Server size:"},
         "FedoraDatabaseUser": {"default": "Fedora User:"},
         "FedoraDatabasePass": {"default": "Fedora Password:"},
@@ -652,6 +667,8 @@
                "export DRUPAL_DATABASE_PASS=", { "Ref" : "DrupalDatabasePass" }, "\n",
                "export DRUPAL_ADMIN_USER=", { "Ref" : "DrupalAdminUser" }, "\n",
                "export DRUPAL_ADMIN_PASS=", { "Ref" : "DrupalAdminPass" }, "\n",
+               "export DRUPAL_ADMIN_EMAIL=", { "Ref" : "DrupalAdminEmail" }, "\n",
+               "export DRUPAL_SITE_NAME=", { "Ref" : "DrupalSiteName" }, "\n",
                "wget https://raw.githubusercontent.com/fsulib/islandora7x_aws/master/UserData/drupal.sh -O /root/drupal.sh \n",
                "sh /root/drupal.sh > /root/build-log.txt 2>&1"
               ]
