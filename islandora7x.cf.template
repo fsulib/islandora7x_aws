@@ -576,7 +576,7 @@
               "\n", [
                "#!/bin/bash \n",
                "wget https://raw.githubusercontent.com/fsulib/islandora7x_aws/master/UserData/bastion.sh -O /root/bastion.sh \n",
-               "sh /root/bastion.sh > /root/build-log.txt"
+               "sh /root/bastion.sh > /root/build-log.txt 2>&1"
               ]
             ]
           }
@@ -635,7 +635,7 @@
                "export DRUPAL_DATABASE_USER=", { "Ref" : "DrupalDatabaseUser" }, "\n",
                "export DRUPAL_DATABASE_PASS=", { "Ref" : "DrupalDatabasePass" }, "\n",
                "wget https://raw.githubusercontent.com/fsulib/islandora7x_aws/master/UserData/drupal.sh -O /root/drupal.sh \n",
-               "sh /root/drupal.sh > /root/build-log.txt"
+               "sh /root/drupal.sh > /root/build-log.txt 2>&1"
               ]
             ]
           }
@@ -697,7 +697,7 @@
                 "export TOMCAT_MANAGER_USER=", { "Ref" : "TomcatManagerUser" }, "\n",
                 "export TOMCAT_MANAGER_PASS=", { "Ref" : "TomcatManagerPass" }, "\n",
                 "wget https://raw.githubusercontent.com/fsulib/islandora7x_aws/master/UserData/fedora.sh -O /root/fedora.sh \n",
-                "sh /root/fedora.sh > /root/build-log.txt"
+                "sh /root/fedora.sh > /root/build-log.txt 2>&1"
               ]
             ]
           }
@@ -750,14 +750,12 @@
               "", [
                 "#!/bin/bash \n",
                 "wget https://raw.githubusercontent.com/fsulib/islandora7x_aws/master/UserData/solr.sh -O /root/solr.sh \n",
-                "sh /root/solr.sh > /root/build-log.txt"
+                "sh /root/solr.sh > /root/build-log.txt 2>&1"
               ]
             ]
           }
         },
       },
     },
-  
   },
-
 }
