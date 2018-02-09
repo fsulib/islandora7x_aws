@@ -729,7 +729,7 @@
           "Fn::Base64": {
             "Fn::Join": [
               "", [
-                "#!/bin/bash",
+                "#!/bin/bash \n",
                 "export DATABASE_ENDPOINT=", { "Fn::GetAtt": ["MySQLRDS", "Endpoint.Address"] }, "\n",
                 "export DATABASE_ROOT_USER=", { "Ref" : "DatabaseRootUser" }, "\n",
                 "export DATABASE_ROOT_PASS=", { "Ref" : "DatabaseRootPass" }, "\n",
