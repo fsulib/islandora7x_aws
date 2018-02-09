@@ -142,7 +142,7 @@
       "AllowedPattern" : "[a-zA-Z0-9]*",
       "ConstraintDescription" : "must contain only alphanumeric characters."
     },
-    "SolrInstanceType" : {
+    "SolrInstanceType": {
       "Description" : "Solr Server Instance Type",
       "Type" : "String",
       "Default" : "t2.nano",
@@ -152,8 +152,7 @@
     "CustomShScriptUrl": {
       "Default": "https://raw.githubusercontent.com/fsulib/islandora7x_aws_fsu_renegade/master/fsu_boostrap.sh",
       "Type": "String",
-      "Description": "The URL for a custom provisioning script.",
-      "AllowedPattern" : "http[.]*",
+      "Description": "The URL for a custom provisioning script",
       "ConstraintDescription" : "must be a valid URL."
     },
   },
@@ -203,7 +202,7 @@
         "FedoraFilterPass": {"default": "Fedora Filter Password:"},
         "TomcatManagerUser": {"default": "Tomcat User:"},
         "TomcatManagerPass": {"default": "Tomcat Password:"},
-        "SolrInstanceType": {"default": "Solr Server size:"} 
+        "SolrInstanceType": {"default": "Solr Server size:"}, 
         "CustomShScriptUrl": {"default": "Custom Shell Script URL:"} 
       }
     }
