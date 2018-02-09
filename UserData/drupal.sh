@@ -1,3 +1,4 @@
+# Save build parameters
 echo "Build Parameters:" >> /root/build-params.txt
 echo "DatabaseEndpoint: ${DATABASE_ENDPOINT}" >> /root/build-params.txt
 echo "DatabaseRootUser: ${DATABASE_ROOT_USER}" >> /root/build-params.txt
@@ -9,6 +10,7 @@ echo "DrupalAdminPass: ${DRUPAL_ADMIN_PASS}" >> /root/build-params.txt
 echo "DrupalAdminEmail: ${DRUPAL_ADMIN_EMAIL}" >> /root/build-params.txt
 echo "DrupalSiteName: ${DRUPAL_SITE_NAME}" >> /root/build-params.txt
 echo "CustomShScriptUrl: ${CUSTOM_SH_SCRIPT_URL}" >> /root/build-params.txt
+
 
 # Mount external devices 
 mkfs -t ext4 /dev/xvdb
@@ -26,21 +28,25 @@ cp -prT /tmp/home /home
 rm -rf /tmp/var
 rm -rf /tmp/home
 
+
 # Set timezone
 rm -f /etc/localtime
 cd /etc
 ln -s /usr/share/zoneinfo/US/Eastern localtime
+
 
 # Run updates & installations
 yum -y update > /root/updates.txt
 yum -y install httpd mysql ImageMagick git > /root/installs.txt
 yum -y install php php-devel php-gd php-xml php-soap php-mysql php-mbstring > /root/installs.php.txt
 
+
 # Configure MySQL
 mysql --user="${DATABASE_ROOT_USER}" --password="${DATABASE_ROOT_PASS}" --host="${DATABASE_ENDPOINT}" --execute="CREATE DATABASE drupaldb;" >> /root/mysql.log 2>&1
 mysql --user="${DATABASE_ROOT_USER}" --password="${DATABASE_ROOT_PASS}" --host="${DATABASE_ENDPOINT}" --execute="CREATE USER '${DRUPAL_DATABASE_USER}'@'10.50.0.101' IDENTIFIED BY '${DRUPAL_DATABASE_PASS}';" >> /root/mysql.log 2>&1
 mysql --user="${DATABASE_ROOT_USER}" --password="${DATABASE_ROOT_PASS}" --host="${DATABASE_ENDPOINT}" --execute="GRANT ALL PRIVILEGES ON drupaldb.* TO ${DRUPAL_DATABASE_USER}@10.50.0.101;" >> /root/mysql.log 2>&1
 mysql --user="${DATABASE_ROOT_USER}" --password="${DATABASE_ROOT_PASS}" --host="${DATABASE_ENDPOINT}" --execute="FLUSH PRIVILEGES;" >> /root/mysql.log 2>&1
+
 
 # Configure Drupal
 mkdir /root/.composer
@@ -54,13 +60,15 @@ cp /var/www/html/sites/default/default.settings.php /var/www/html/sites/default/
 /root/.composer/vendor/bin/drush --root=/var/www/html --uri=default -y si standard --account-name=$DRUPAL_ADMIN_USER --account-pass=$DRUPAL_ADMIN_PASS --account-mail=$DRUPAL_ADMIN_EMAIL --db-url=mysql://$DRUPAL_DATABASE_USER:$DRUPAL_DATABASE_PASS@$DATABASE_ENDPOINT/drupaldb --site-name=$DRUPAL_SITE_NAME
 mysql --user="${DATABASE_ROOT_USER}" --password="${DATABASE_ROOT_PASS}" --host="${DATABASE_ENDPOINT}" --execute="ALTER DATABASE drupaldb CHARACTER SET = utf8mb4 COLLATE = utf8mb4_unicode_ci;"
 sed -i -e "s/'prefix'\ =>\ '',/'prefix'\ =>\ '',\ 'charset'\ =>\ 'utf8mb4',\ 'collation'\ =>\ 'utf8mb4_general_ci',/g" /var/www/html/sites/default/settings.php
-chmod -R 777 /var/www/html
+chmod -R 755 /var/www/html
 
-# Configure apache
+
+# Configure HTTPD 
 echo "AddHandler php5-script .php" >> /etc/httpd/conf/httpd.conf
 echo "AddType text/html .php" >> /etc/httpd/conf/httpd.conf
 sed -i -e 's/AllowOverride\ None/AllowOverride\ All/g' /etc/httpd/conf/httpd.conf
 service httpd restart
+
 
 # Install core Islandora modules
 wget https://raw.githubusercontent.com/fsulib/islandora7x_aws/master/UserData/core_islandora_modules.txt -O /tmp/core_islandora_modules.txt
@@ -73,9 +81,10 @@ done < /tmp/core_islandora_modules.txt
   
 
 # Run custom provisioning
-# wget $CUSTOM_SH_SCRIPT_URL -O /tmp/custom.sh
-# chmod +x /tmp/custom.sh
-# sh /tmp/custom.sh
+wget $CUSTOM_SH_SCRIPT_URL -O /tmp/custom.sh
+chmod +x /tmp/custom.sh
+sh /tmp/custom.sh
+
 
 # Final refresh of system before exiting
 /root/.composer/vendor/bin/drush --root=/var/www/html --uri=default -y cc all
