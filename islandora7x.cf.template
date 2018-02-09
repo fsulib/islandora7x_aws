@@ -149,7 +149,13 @@
       "AllowedValues" : [ "t1.micro", "t2.nano", "t2.micro", "t2.small", "t2.medium", "t2.large", "m1.small", "m1.medium", "m1.large", "m1.xlarge", "m2.xlarge", "m2.2xlarge", "m2.4xlarge", "m3.medium", "m3.large", "m3.xlarge", "m3.2xlarge", "m4.large", "m4.xlarge", "m4.2xlarge", "m4.4xlarge", "m4.10xlarge", "c1.medium", "c1.xlarge", "c3.large", "c3.xlarge", "c3.2xlarge", "c3.4xlarge", "c3.8xlarge", "c4.large", "c4.xlarge", "c4.2xlarge", "c4.4xlarge", "c4.8xlarge", "g2.2xlarge", "g2.8xlarge", "r3.large", "r3.xlarge", "r3.2xlarge", "r3.4xlarge", "r3.8xlarge", "i2.xlarge", "i2.2xlarge", "i2.4xlarge", "i2.8xlarge", "d2.xlarge", "d2.2xlarge", "d2.4xlarge", "d2.8xlarge", "hi1.4xlarge", "hs1.8xlarge", "cr1.8xlarge", "cc2.8xlarge", "cg1.4xlarge"],
       "ConstraintDescription" : "must be a valid EC2 instance type."
     },
-
+    "CustomShScriptUrl": {
+      "Default": "https://raw.githubusercontent.com/fsulib/islandora7x_aws/master/FsuCustom/fsu_boostrap.sh",
+      "Type": "String",
+      "Description": "The URL for a custom provisioning script.",
+      "AllowedPattern" : "http[.]*",
+      "ConstraintDescription" : "must be a valid URL."
+    },
   },
 
   "Metadata" : {
@@ -171,6 +177,9 @@
         },{
         "Label" : {"default": "Solr Server Information"},
         "Parameters" : ["SolrInstanceType"]
+        },{
+        "Label" : {"default": "Custom Provisioning Information"},
+        "Parameters" : ["CustomShScriptUrl"]
       }],
       "ParameterLabels" : {
         "BastionInstanceType": {"default": "Bastion Server size:"},
@@ -195,6 +204,7 @@
         "TomcatManagerUser": {"default": "Tomcat User:"},
         "TomcatManagerPass": {"default": "Tomcat Password:"},
         "SolrInstanceType": {"default": "Solr Server size:"} 
+        "CustomShScriptUrl": {"default": "Custom Shell Script URL:"} 
       }
     }
   },
@@ -667,6 +677,7 @@
                "export DRUPAL_ADMIN_PASS=", { "Ref" : "DrupalAdminPass" }, "\n",
                "export DRUPAL_ADMIN_EMAIL=", { "Ref" : "DrupalAdminEmail" }, "\n",
                "export DRUPAL_SITE_NAME=", { "Ref" : "DrupalSiteName" }, "\n",
+               "export CUSTOM_SH_SCRIPT_URL=", { "Ref" : "CustomShScriptUrl" }, "\n",
                "wget https://raw.githubusercontent.com/fsulib/islandora7x_aws/master/UserData/drupal.sh -O /root/drupal.sh \n",
                "sh /root/drupal.sh > /root/build-log.txt 2>&1"
               ]

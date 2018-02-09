@@ -8,6 +8,7 @@ echo "DrupalAdminUser: ${DRUPAL_ADMIN_USER}" >> /root/build-params.txt
 echo "DrupalAdminPass: ${DRUPAL_ADMIN_PASS}" >> /root/build-params.txt
 echo "DrupalAdminEmail: ${DRUPAL_ADMIN_EMAIL}" >> /root/build-params.txt
 echo "DrupalSiteName: ${DRUPAL_SITE_NAME}" >> /root/build-params.txt
+echo "CustomShScriptUrl: ${CUSTOM_SH_SCRIPT_URL}" >> /root/build-params.txt
 
 # Mount external devices 
 mkfs -t ext4 /dev/xvdb
@@ -32,7 +33,7 @@ ln -s /usr/share/zoneinfo/US/Eastern localtime
 
 # Run updates & installations
 yum -y update > /root/updates.txt
-yum -y install httpd mysql ImageMagick > /root/installs.txt
+yum -y install httpd mysql ImageMagick git > /root/installs.txt
 yum -y install php php-devel php-gd php-xml php-soap php-mysql php-mbstring > /root/installs.php.txt
 
 # Configure MySQL
@@ -60,3 +61,23 @@ echo "AddHandler php5-script .php" >> /etc/httpd/conf/httpd.conf
 echo "AddType text/html .php" >> /etc/httpd/conf/httpd.conf
 sed -i -e 's/AllowOverride\ None/AllowOverride\ All/g' /etc/httpd/conf/httpd.conf
 service httpd restart
+
+# Install core Islandora modules
+wget https://raw.githubusercontent.com/fsulib/islandora7x_aws/master/UserData/core_islandora_modules.txt -O /tmp/core_islandora_modules.txt
+while read line
+do
+  cd /var/www/html/sites/all/modules/
+  git clone https://github.com/Islandora/$line
+  # /root/.composer/vendor/bin/drush -y --root=/var/www/html en $line
+done < /tmp/core_islandora_modules.txt
+  
+
+# Run custom provisioning
+# wget $CUSTOM_SH_SCRIPT_URL -O /tmp/custom.sh
+# chmod +x /tmp/custom.sh
+# sh /tmp/custom.sh
+
+# Final refresh of system before exiting
+/root/.composer/vendor/bin/drush --root=/var/www/html --uri=default -y cc all
+service httpd restart
+

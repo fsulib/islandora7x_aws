@@ -1,0 +1,1 @@
+flvc/islandora_usage_stats_callbacks
