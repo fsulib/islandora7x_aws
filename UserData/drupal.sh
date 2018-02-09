@@ -80,4 +80,3 @@ done < /tmp/core_islandora_modules.txt
 # Final refresh of system before exiting
 /root/.composer/vendor/bin/drush --root=/var/www/html --uri=default -y cc all
 service httpd restart
-

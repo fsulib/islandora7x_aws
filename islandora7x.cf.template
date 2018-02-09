@@ -150,7 +150,7 @@
       "ConstraintDescription" : "must be a valid EC2 instance type."
     },
     "CustomShScriptUrl": {
-      "Default": "https://raw.githubusercontent.com/fsulib/islandora7x_aws/master/FsuCustom/fsu_boostrap.sh",
+      "Default": "https://raw.githubusercontent.com/fsulib/islandora7x_aws_fsu_renegade/master/fsu_boostrap.sh",
       "Type": "String",
       "Description": "The URL for a custom provisioning script.",
       "AllowedPattern" : "http[.]*",
