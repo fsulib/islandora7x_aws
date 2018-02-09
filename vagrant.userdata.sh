@@ -33,12 +33,18 @@ sed -i -e 's/AllowOverride\ None/AllowOverride\ All/g' /etc/httpd/conf/httpd.con
 service httpd restart
 
 # Install Islandora modules
+wget https://raw.githubusercontent.com/fsulib/islandora7x_aws/master/UserData/core_islandora_modules.txt -O /tmp/core_islandora_modules.txt
 while read line
 do
-  cd /var/www/html/sites/all/modules/ 
+  cd /var/www/html/sites/all/modules/
   git clone https://github.com/Islandora/$line
-  # /root/.composer/vendor/bin/drush -y --root=/var/www/html en $line # Wait for fedora to be installed
-done < /vagrant/UserData/core_islandora_modules.txt
+  # /root/.composer/vendor/bin/drush -y --root=/var/www/html en $line
+done < /tmp/core_islandora_modules.txt
+
+# Testing custom script loading
+wget https://raw.githubusercontent.com/fsulib/islandora7x_aws/master/FsuCustom/fsu_bootstrap.sh -O /tmp/fsu_bootstrap.sh
+chmod +x /tmp/fsu_bootstrap.sh
+sh /tmp/fsu_bootstrap.sh
 
 # Final system prep
 service httpd restart
