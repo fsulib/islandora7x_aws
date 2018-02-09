@@ -34,6 +34,7 @@ ln -s /usr/share/zoneinfo/US/Eastern localtime
 yum -y update > /root/updates.txt
 yum -y remove java-1.7.0-openjdk >> /root/updates.txt
 yum -y install mysql java-1.8.0 > /root/installs.txt
+yum -y install tomcat7
 
 # Configure MySQL
 mysql --user="${DATABASE_ROOT_USER}" --password="${DATABASE_ROOT_PASS}" --host="${DATABASE_ENDPOINT}" --execute="CREATE DATABASE fedoradb;"
@@ -59,4 +60,11 @@ cd /root
 #TODO: WRITE VARIABLES to INSTALL.PROPERTIES file
 
 java -jar fcrepo-installer-3.8.1.jar install.properties
+
+# Deploy fcrepo
+chown tomcat:tomcat /var/lib/tomcat7/webapps/fedora.war
+chown -hR tomcat:tomcat "$FEDORA_HOME"
+service tomcat7 restart
+echo "Sleeping while Fedora starts for the first time."
+sleep 45
 
