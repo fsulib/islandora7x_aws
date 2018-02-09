@@ -53,6 +53,10 @@ echo "FEDORA_HOME=$FEDORA_HOME" >> /etc/environment
 
 # Install Fedora Commons
 mkdir "$FEDORA_HOME"
-curl -sS http://downloads.sourceforge.net/fedora-commons/fcrepo-installer-3.8.1.jar -o /root/fcrepo-installer-3.8.1.jar
+curl -sS http://downloads.sourceforge.net/project/fedora-commons/fedora/3.8.1/fcrepo-installer-3.8.1.jar -o /root/fcrepo-installer-3.8.1.jar
 cd /root
+
+#TODO: WRITE VARIABLES to INSTALL.PROPERTIES file
+
+java -jar fcrepo-installer-3.8.1.jar install.properties
 
