@@ -43,5 +43,16 @@ mysql --user="${DATABASE_ROOT_USER}" --password="${DATABASE_ROOT_PASS}" --host="
 mysql --user="${DATABASE_ROOT_USER}" --password="${DATABASE_ROOT_PASS}" --host="${DATABASE_ENDPOINT}" --execute="ALTER DATABASE fedoradb DEFAULT CHARACTER SET utf8;"
 mysql --user="${DATABASE_ROOT_USER}" --password="${DATABASE_ROOT_PASS}" --host="${DATABASE_ENDPOINT}" --execute="ALTER DATABASE fedoradb DEFAULT COLLATE utf8_bin;"
 
-# Configure Fedora Commons
-curl -sS http://downloads.sourceforge.net/fedora-commons/fcrepo-installer-3.8.1.jar -o /root/fcrepo-installer-3.8.1.jar 
+# Setup variables needed by Fedora
+export JAVA_HOME="/usr/lib/jvm/jre-1.8.0-openjdk.x86_64"
+echo "JAVA_HOME=$JAVA_HOME" >> /etc/environment
+export PATH=$PATH:$JAVA_HOME/bin
+echo "PATH=$PATH" >> /etc/environment
+export FEDORA_HOME="/usr/local/fedora"
+echo "FEDORA_HOME=$FEDORA_HOME" >> /etc/environment
+
+# Install Fedora Commons
+mkdir "$FEDORA_HOME"
+curl -sS http://downloads.sourceforge.net/fedora-commons/fcrepo-installer-3.8.1.jar -o /root/fcrepo-installer-3.8.1.jar
+cd /root
+
