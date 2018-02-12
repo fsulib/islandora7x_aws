@@ -54,10 +54,10 @@ echo "FEDORA_HOME=$FEDORA_HOME" >> /etc/environment
 # Download install.properties file and rewrite variables
 cd /root
 wget https://raw.githubusercontent.com/fsulib/islandora7x_aws/master/UserData/install.properties
-perl -p -e 's/DBServer/$ENV{DATABASE_ENDPOINT}/g' install.properties
-perl -p -e 's/fedoraDBuser/$ENV{FEDORA_DATABASE_USER}/g' install.properties
-perl -p -e 's/fedoraDBpass/$ENV{FEDORA_DATABASE_PASS}/g' install.properties
-perl -p -e 's/fedoraAdminPass/$ENV{FEDORA_ADMIN_PASS}/g' install.properties
+perl -i -p -e 's/DBServer/$ENV{DATABASE_ENDPOINT}/g' install.properties
+perl -i -p -e 's/fedoraDBuser/$ENV{FEDORA_DATABASE_USER}/g' install.properties
+perl -i -p -e 's/fedoraDBpass/$ENV{FEDORA_DATABASE_PASS}/g' install.properties
+perl -i -p -e 's/fedoraAdminPass/$ENV{FEDORA_ADMIN_PASS}/g' install.properties
 
 # Install Fedora Commons
 mkdir "$FEDORA_HOME"
