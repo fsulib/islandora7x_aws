@@ -61,7 +61,7 @@ perl -p -e 's/fedoraAdminPass/$ENV{FEDORA_ADMIN_PASS}/g' install.properties
 
 # Install Fedora Commons
 mkdir "$FEDORA_HOME"
-curl -sS http://downloads.sourceforge.net/project/fedora-commons/fedora/3.8.1/fcrepo-installer-3.8.1.jar -o /root/fcrepo-installer-3.8.1.jar
+wget -q -O "/root/fcrepo-installer-3.8.1.jar" "https://github.com/fcrepo3/fcrepo/releases/download/v3.8.1/fcrepo-installer-3.8.1.jar"
 java -jar fcrepo-installer-3.8.1.jar install.properties >> /root/installs.txt 2>&1
 
 # Deploy fcrepo
@@ -69,4 +69,3 @@ chown tomcat:tomcat /var/lib/tomcat7/webapps/fedora.war
 chown -hR tomcat:tomcat "$FEDORA_HOME"
 service tomcat7 restart >> /root/installs.txt 2>&1
 sleep 45
-
