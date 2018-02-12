@@ -114,15 +114,10 @@
       "AllowedPattern" : "[a-zA-Z0-9]*",
       "ConstraintDescription" : "must contain only alphanumeric characters."
     },
-    "FedoraFilterUser": {
-      "Default": "fedorafilter",
-      "Type": "String",
-      "Description": "The username for the Fedora filter"
-    },
-    "FedoraFilterPass": {
+    "FedoraAdminPass": {
       "NoEcho": "true",
       "Type": "String",
-      "Description": "The password for the Fedora filter",
+      "Description": "The password for the Fedora admin user",
       "MinLength": "8",
       "MaxLength": "41",
       "AllowedPattern" : "[a-zA-Z0-9]*",
@@ -172,7 +167,7 @@
         },{
         "Label" : {"default": "Fedora Server Information"},
         "Parameters" : ["FedoraInstanceType", "FedoraDatabaseUser", "FedoraDatabasePass",
-         "FedoraFilterUser", "FedoraFilterPass", "TomcatManagerUser", "TomcatManagerPass"]
+         "FedoraAdminPass", "TomcatManagerUser", "TomcatManagerPass"]
         },{
         "Label" : {"default": "Solr Server Information"},
         "Parameters" : ["SolrInstanceType"]
@@ -198,8 +193,7 @@
         "FedoraInstanceType": {"default": "Fedora Server size:"},
         "FedoraDatabaseUser": {"default": "Fedora User:"},
         "FedoraDatabasePass": {"default": "Fedora Password:"},
-        "FedoraFilterUser": {"default": "Fedora Filter User:"},
-        "FedoraFilterPass": {"default": "Fedora Filter Password:"},
+        "FedoraAdminPass": {"default": "Fedora Admin Password:"},
         "TomcatManagerUser": {"default": "Tomcat User:"},
         "TomcatManagerPass": {"default": "Tomcat Password:"},
         "SolrInstanceType": {"default": "Solr Server size:"}, 
@@ -735,8 +729,7 @@
                 "export DATABASE_ROOT_PASS=", { "Ref" : "DatabaseRootPass" }, "\n",
                 "export FEDORA_DATABASE_USER=", { "Ref" : "FedoraDatabaseUser" }, "\n",
                 "export FEDORA_DATABASE_PASS=", { "Ref" : "FedoraDatabasePass" }, "\n",
-                "export FEDORA_FILTER_USER=", { "Ref" : "FedoraFilterUser" }, "\n",
-                "export FEDORA_FILTER_PASS=", { "Ref" : "FedoraFilterPass" }, "\n",
+                "export FEDORA_ADMIN_PASS=", { "Ref" : "FedoraAdminPass" }, "\n",
                 "export TOMCAT_MANAGER_USER=", { "Ref" : "TomcatManagerUser" }, "\n",
                 "export TOMCAT_MANAGER_PASS=", { "Ref" : "TomcatManagerPass" }, "\n",
                 "wget https://raw.githubusercontent.com/fsulib/islandora7x_aws/master/UserData/fedora.sh -O /root/fedora.sh \n",

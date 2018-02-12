@@ -4,8 +4,7 @@ echo "DatabaseRootUser: ${DATABASE_ROOT_USER}" >> /root/build-params.txt
 echo "DatabaseRootPass: ${DATABASE_ROOT_PASS}" >> /root/build-params.txt
 echo "FedoraDatabaseUser: ${FEDORA_DATABASE_USER}" >> /root/build-params.txt
 echo "FedoraDatabasePass: ${FEDORA_DATABASE_PASS}" >> /root/build-params.txt
-echo "FedoraFilterUser: ${FEDORA_FILTER_USER}" >> /root/build-params.txt
-echo "FedoraFilterPass: ${FEDORA_FILTER_PASS}" >> /root/build-params.txt
+echo "FedoraAdminPass: ${FEDORA_ADMIN_PASS}" >> /root/build-params.txt
 echo "TomcatManagerUser: ${TOMCAT_MANAGER_USER}" >> /root/build-params.txt
 echo "TomcatManagerPass: ${TOMCAT_MANAGER_PASS}" >> /root/build-params.txt
 
@@ -52,13 +51,17 @@ echo "PATH=$PATH" >> /etc/environment
 export FEDORA_HOME="/usr/local/fedora"
 echo "FEDORA_HOME=$FEDORA_HOME" >> /etc/environment
 
+# Download install.properties file and rewrite variables
+cd /root
+wget https://raw.githubusercontent.com/fsulib/islandora7x_aws/master/UserData/install.properties
+perl -p -e 's/DBServer/$ENV{DATABASE_ENDPOINT}/g' install.properties
+perl -p -e 's/fedoraDBuser/$ENV{FEDORA_DATABASE_USER}/g' install.properties
+perl -p -e 's/fedoraDBpass/$ENV{FEDORA_DATABASE_PASS}/g' install.properties
+perl -p -e 's/fedoraAdminPass/$ENV{FEDORA_ADMIN_PASS}/g' install.properties
+
 # Install Fedora Commons
 mkdir "$FEDORA_HOME"
 curl -sS http://downloads.sourceforge.net/project/fedora-commons/fedora/3.8.1/fcrepo-installer-3.8.1.jar -o /root/fcrepo-installer-3.8.1.jar
-cd /root
-
-#TODO: WRITE VARIABLES to INSTALL.PROPERTIES file
-
 java -jar fcrepo-installer-3.8.1.jar install.properties
 
 # Deploy fcrepo
