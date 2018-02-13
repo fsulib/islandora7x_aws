@@ -34,6 +34,7 @@ yum -y update > /root/updates.txt
 yum -y remove java-1.7.0-openjdk >> /root/updates.txt
 yum -y install mysql java-1.8.0 > /root/installs.txt
 yum -y install tomcat7 >> /root/installs.txt
+yum -y install git >> /root/installs.txt
 
 # Configure MySQL
 mysql --user="${DATABASE_ROOT_USER}" --password="${DATABASE_ROOT_PASS}" --host="${DATABASE_ENDPOINT}" --execute="CREATE DATABASE fedoradb;"
@@ -69,3 +70,24 @@ chown tomcat:tomcat /var/lib/tomcat7/webapps/fedora.war
 chown -hR tomcat:tomcat "$FEDORA_HOME"
 service tomcat7 restart >> /root/installs.txt 2>&1
 sleep 45
+
+# Setup XACML Policies
+rm -f "$FEDORA_HOME"/data/fedora-xacml-policies/repository-policies/default/deny-inactive-or-deleted-objects-or-datastreams-if-not-administrator.xml
+rm -f "$FEDORA_HOME"/data/fedora-xacml-policies/repository-policies/default/deny-policy-management-if-not-administrator.xml
+rm -f "$FEDORA_HOME"/data/fedora-xacml-policies/repository-policies/default/deny-unallowed-file-resolution.xml
+rm -f "$FEDORA_HOME"/data/fedora-xacml-policies/repository-policies/default/deny-purge-datastream-if-active-or-inactive.xml
+rm -f "$FEDORA_HOME"/data/fedora-xacml-policies/repository-policies/default/deny-purge-object-if-active-or-inactive.xml
+rm -f "$FEDORA_HOME"/data/fedora-xacml-policies/repository-policies/default/deny-reloadPolicies-if-not-localhost.xml
+cd "$FEDORA_HOME"/data/fedora-xacml-policies/repository-policies/
+git clone https://github.com/Islandora/islandora-xacml-policies.git islandora
+rm -f "$FEDORA_HOME"/data/fedora-xacml-policies/repository-policies/islandora/permit-apim-to-anonymous-user.xml
+rm -f "$FEDORA_HOME"/data/fedora-xacml-policies/repository-policies/islandora/permit-upload-to-anonymous-user.xml
+
+# Setup Drupal filter
+wget -q -O "/root/fcrepo-drupalauthfilter-3.8.1.jar" https://github.com/Islandora/islandora_drupal_filter/releases/download/v7.1.3/fcrepo-drupalauthfilter-3.8.1.jar
+cp "/root/fcrepo-drupalauthfilter-3.8.1.jar" /var/lib/tomcat7/webapps/fedora/WEB-INF/lib
+chown tomcat:tomcat /var/lib/tomcat7/webapps/fedora/WEB-INF/lib/fcrepo-drupalauthfilter-3.8.1.jar
+
+
+
+service tomcat7 restart
