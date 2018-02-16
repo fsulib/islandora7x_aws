@@ -2,6 +2,8 @@ echo "Build Parameters:" >> /root/build-params.txt
 echo "DatabaseEndpoint: ${DATABASE_ENDPOINT}" >> /root/build-params.txt
 echo "DatabaseRootUser: ${DATABASE_ROOT_USER}" >> /root/build-params.txt
 echo "DatabaseRootPass: ${DATABASE_ROOT_PASS}" >> /root/build-params.txt
+echo "DrupalDatabaseUser: ${DRUPAL_DATABASE_USER}" >> /root/build-params.txt
+echo "DrupalDatabasePass: ${DRUPAL_DATABASE_PASS}" >> /root/build-params.txt
 echo "FedoraDatabaseUser: ${FEDORA_DATABASE_USER}" >> /root/build-params.txt
 echo "FedoraDatabasePass: ${FEDORA_DATABASE_PASS}" >> /root/build-params.txt
 echo "FedoraAdminPass: ${FEDORA_ADMIN_PASS}" >> /root/build-params.txt
@@ -89,6 +91,10 @@ cp "/root/fcrepo-drupalauthfilter-3.8.1.jar" /var/lib/tomcat7/webapps/fedora/WEB
 chown tomcat:tomcat /var/lib/tomcat7/webapps/fedora/WEB-INF/lib/fcrepo-drupalauthfilter-3.8.1.jar
 wget -q -O "root/jaas.conf" https://raw.githubusercontent.com/fsulib/islandora7x_aws/master/UserData/jaas.conf
 cp /root/jaas.conf "$FEDORA_HOME"/server/config
-
+wget -q -O "root/filter-drupal.xml" https://raw.githubusercontent.com/fsulib/islandora7x_aws/master/UserData/filter-drupal.xml
+perl -i -p -e 's/DBServer/$ENV{DATABASE_ENDPOINT}/g' filter-drupal.xml
+perl -i -p -e 's/drupalDBuser/$ENV{DRUPAL_DATABASE_USER}/g' filter-drupal.xml
+perl -i -p -e 's/drupalDBpass/$ENV{DRUPAL_DATABASE_PASS}/g' filter-drupal.xml
 cp /root/filter-drupal.xml "$FEDORA_HOME"/server/config
+
 service tomcat7 restart

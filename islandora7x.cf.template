@@ -565,6 +565,23 @@
       }
     },
 
+    "FedoraServerSecurityGroup" : {
+      "Type": "AWS::EC2::SecurityGroup",
+      "Properties" : {
+        "GroupDescription": "Allow Access to Fedora interface",
+        "VpcId" : {
+          "Ref": "VPC"
+        },
+        "Tags" : [{
+          "Key": "Name",
+          "Value": "FedoraServerSecurityGroup"       
+        }],
+        "SecurityGroupIngress" : [
+          {"IpProtocol" : "tcp", "FromPort" : "8080", "ToPort" : "8080","CidrIp" : "10.50.0.101/32"}
+        ]
+      }
+    },
+
     "MySQLRDS" : {
      "Type" : "AWS::RDS::DBInstance",
      "Properties" : {
@@ -695,9 +712,10 @@
           "SubnetId": {
             "Ref": "PublicSubnet1"
           },
-          "GroupSet": [{
-            "Ref": "PrivateSSHSecurityGroup"
-          }]
+          "GroupSet": [
+            { "Ref": "PrivateSSHSecurityGroup" },
+            { "Ref": "FedoraServerSecurityGroup" }
+          ]
         }],
         "BlockDeviceMappings" : [
           {
@@ -727,6 +745,8 @@
                 "export DATABASE_ENDPOINT=", { "Fn::GetAtt": ["MySQLRDS", "Endpoint.Address"] }, "\n",
                 "export DATABASE_ROOT_USER=", { "Ref" : "DatabaseRootUser" }, "\n",
                 "export DATABASE_ROOT_PASS=", { "Ref" : "DatabaseRootPass" }, "\n",
+                "export DRUPAL_DATABASE_USER=", { "Ref" : "DrupalDatabaseUser" }, "\n",
+                "export DRUPAL_DATABASE_PASS=", { "Ref" : "DrupalDatabasePass" }, "\n",
                 "export FEDORA_DATABASE_USER=", { "Ref" : "FedoraDatabaseUser" }, "\n",
                 "export FEDORA_DATABASE_PASS=", { "Ref" : "FedoraDatabasePass" }, "\n",
                 "export FEDORA_ADMIN_PASS=", { "Ref" : "FedoraAdminPass" }, "\n",

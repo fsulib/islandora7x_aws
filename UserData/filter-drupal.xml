@@ -14,7 +14,7 @@
          $db_url = 'mysqli://root:root@localhost/fedora3';
          Note that 3306 is the default mysql port.
       -->
-    <connection server="dbhost" port="3306" dbname="drupaldb" user="drupaluser" password="drupalpass">
+    <connection server="DBServer" port="3306" dbname="drupaldb" user="drupalDBuser" password="drupalDBpass">
       <sql>
         <!--Different sql statement for each connection.  This is for drupal
              multisites that are setup using one database with table prefixes.
