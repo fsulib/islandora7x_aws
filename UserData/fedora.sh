@@ -91,7 +91,7 @@ cp "/root/fcrepo-drupalauthfilter-3.8.1.jar" /var/lib/tomcat7/webapps/fedora/WEB
 chown tomcat:tomcat /var/lib/tomcat7/webapps/fedora/WEB-INF/lib/fcrepo-drupalauthfilter-3.8.1.jar
 wget -q -O "root/jaas.conf" https://raw.githubusercontent.com/fsulib/islandora7x_aws/master/UserData/jaas.conf
 cp /root/jaas.conf "$FEDORA_HOME"/server/config
-wget -q -O "root/filter-drupal.xml" https://raw.githubusercontent.com/fsulib/islandora7x_aws/master/UserData/filter-drupal.xml
+wget -q -O "/root/filter-drupal.xml" https://raw.githubusercontent.com/fsulib/islandora7x_aws/master/UserData/filter-drupal.xml
 perl -i -p -e 's/DBServer/$ENV{DATABASE_ENDPOINT}/g' filter-drupal.xml
 perl -i -p -e 's/drupalDBuser/$ENV{DRUPAL_DATABASE_USER}/g' filter-drupal.xml
 perl -i -p -e 's/drupalDBpass/$ENV{DRUPAL_DATABASE_PASS}/g' filter-drupal.xml
