@@ -89,7 +89,7 @@ rm -f "$FEDORA_HOME"/data/fedora-xacml-policies/repository-policies/islandora/pe
 wget -q -O "/root/fcrepo-drupalauthfilter-3.8.1.jar" https://github.com/Islandora/islandora_drupal_filter/releases/download/v7.1.3/fcrepo-drupalauthfilter-3.8.1.jar
 cp "/root/fcrepo-drupalauthfilter-3.8.1.jar" /var/lib/tomcat7/webapps/fedora/WEB-INF/lib
 chown tomcat:tomcat /var/lib/tomcat7/webapps/fedora/WEB-INF/lib/fcrepo-drupalauthfilter-3.8.1.jar
-wget -q -O "root/jaas.conf" https://raw.githubusercontent.com/fsulib/islandora7x_aws/master/UserData/jaas.conf
+wget -q -O "/root/jaas.conf" https://raw.githubusercontent.com/fsulib/islandora7x_aws/master/UserData/jaas.conf
 cp /root/jaas.conf "$FEDORA_HOME"/server/config
 wget -q -O "/root/filter-drupal.xml" https://raw.githubusercontent.com/fsulib/islandora7x_aws/master/UserData/filter-drupal.xml
 cd /root
