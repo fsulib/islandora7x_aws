@@ -78,7 +78,10 @@ do
   git clone https://github.com/Islandora/$line
   # /root/.composer/vendor/bin/drush -y --root=/var/www/html en $line
 done < /tmp/core_islandora_modules.txt
-  
+
+# Download tuque library
+cd /var/www/html/sites/all/libraries
+git clone https://github.com/Islandora/tuque.git
 
 # Run custom provisioning
 wget $CUSTOM_SH_SCRIPT_URL -O /tmp/custom.sh
