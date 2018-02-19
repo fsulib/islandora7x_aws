@@ -84,6 +84,7 @@ cd "$FEDORA_HOME"/data/fedora-xacml-policies/repository-policies/
 git clone https://github.com/Islandora/islandora-xacml-policies.git islandora
 rm -f "$FEDORA_HOME"/data/fedora-xacml-policies/repository-policies/islandora/permit-apim-to-anonymous-user.xml
 rm -f "$FEDORA_HOME"/data/fedora-xacml-policies/repository-policies/islandora/permit-upload-to-anonymous-user.xml
+sed -i '31i <AttributeValue DataType="http://www.w3.org/2001/XMLSchema#string">10.50.0.101</AttributeValue>' default/deny-apim-if-not-localhost.xml
 
 # Setup Drupal filter
 wget -q -O "/root/fcrepo-drupalauthfilter-3.8.1.jar" https://github.com/Islandora/islandora_drupal_filter/releases/download/v7.1.3/fcrepo-drupalauthfilter-3.8.1.jar
