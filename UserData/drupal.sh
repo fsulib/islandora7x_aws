@@ -81,11 +81,11 @@ done < /tmp/core_islandora_modules.txt
 cd /var/www/html/sites/all/libraries
 git clone https://github.com/Islandora/tuque.git
 cd /var/www/html
-/root/.composer/vendor/bin/drush en libraries
+/root/.composer/vendor/bin/drush en libraries -y
 
 # Set Fedora URL and enable Islandora
 /root/.composer/vendor/bin/drush vset islandora_base_url "http://10.50.0.102:8080/fedora"
-/root/.composer/vendor/bin/drush en islandora
+/root/.composer/vendor/bin/drush en islandora -y
 
 # Run custom provisioning
 wget $CUSTOM_SH_SCRIPT_URL -O /tmp/custom.sh
