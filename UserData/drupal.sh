@@ -85,7 +85,7 @@ cd /var/www/html
 
 # Set Fedora URL and enable Islandora
 /root/.composer/vendor/bin/drush vset islandora_base_url "http://10.50.0.102:8080/fedora"
-/root/.composer/vendor/bin/drush en islandora -y
+/root/.composer/vendor/bin/drush --user=1 en islandora -y
 
 # Enable the Basic Collection module
 /root/.composer/vendor/bin/drush --user=1 en islandora_basic_collection -y
