@@ -87,6 +87,10 @@ cd /var/www/html
 /root/.composer/vendor/bin/drush vset islandora_base_url "http://10.50.0.102:8080/fedora"
 /root/.composer/vendor/bin/drush en islandora -y
 
+# Enable the Basic Image module
+/root/.composer/vendor/bin/drush dl imagemagick
+/root/.composer/vendor/bin/drush en imagemagick -y
+
 # Run custom provisioning
 wget $CUSTOM_SH_SCRIPT_URL -O /tmp/custom.sh
 chmod +x /tmp/custom.sh
