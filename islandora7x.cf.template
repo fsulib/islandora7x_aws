@@ -560,7 +560,7 @@
           "Value": "SolrServerSecurityGroup"       
         }],
         "SecurityGroupIngress" : [
-          {"IpProtocol" : "tcp", "FromPort" : "8983", "ToPort" : "8983","CidrIp" : "10.50.0.101/32"}
+          {"IpProtocol" : "tcp", "FromPort" : "8983", "ToPort" : "8983","CidrIp" : "10.50.0.0/24"}
         ]
       }
     },

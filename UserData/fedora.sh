@@ -99,4 +99,11 @@ perl -i -p -e 's/drupalDBuser/$ENV{DRUPAL_DATABASE_USER}/g' filter-drupal.xml
 perl -i -p -e 's/drupalDBpass/$ENV{DRUPAL_DATABASE_PASS}/g' filter-drupal.xml
 cp /root/filter-drupal.xml "$FEDORA_HOME"/server/config
 
+# Download and Install Fedora GSearch
+cd /root
+wget http://downloads.sourceforge.net/fedora-commons/fedoragsearch-2.7.zip
+unzip fedoragsearch-2.7.zip
+cd fedoragsearch-2.7
+cp -v fedoragsearch.war /var/lib/tomcat7/webapps
+
 service tomcat7 restart
