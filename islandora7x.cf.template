@@ -686,7 +686,7 @@
                "export DRUPAL_ADMIN_USER=", { "Ref" : "DrupalAdminUser" }, "\n",
                "export DRUPAL_ADMIN_PASS=", { "Ref" : "DrupalAdminPass" }, "\n",
                "export DRUPAL_ADMIN_EMAIL=", { "Ref" : "DrupalAdminEmail" }, "\n",
-               "export DRUPAL_SITE_NAME=", { "Ref" : "DrupalSiteName" }, "\n",
+               "export DRUPAL_SITE_NAME=\"", { "Ref" : "DrupalSiteName" }, "\"\n",
                "export CUSTOM_SH_SCRIPT_URL=", { "Ref" : "CustomShScriptUrl" }, "\n",
                "wget https://raw.githubusercontent.com/fsulib/islandora7x_aws/master/UserData/drupal.sh -O /root/drupal.sh \n",
                "sh /root/drupal.sh > /root/build-log.txt 2>&1"

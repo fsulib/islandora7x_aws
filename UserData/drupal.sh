@@ -57,7 +57,54 @@ php /root/.composer/composer.phar global require drush/drush:7.1.0
 rm -rf /var/www/html
 /root/.composer/vendor/bin/drush dl drupal-7.x --destination=/var/www/ --drupal-project-rename=html
 cp /var/www/html/sites/default/default.settings.php /var/www/html/sites/default/settings.php
-/root/.composer/vendor/bin/drush --root=/var/www/html --uri=default -y si standard --account-name=$DRUPAL_ADMIN_USER --account-pass=$DRUPAL_ADMIN_PASS --account-mail=$DRUPAL_ADMIN_EMAIL --db-url=mysql://$DRUPAL_DATABASE_USER:$DRUPAL_DATABASE_PASS@$DATABASE_ENDPOINT/drupaldb --site-name=$DRUPAL_SITE_NAME
+/root/.composer/vendor/bin/drush --root=/var/www/html --uri=default -y si standard --account-name=$DRUPAL_ADMIN_USER --account-pass=$DRUPAL_ADMIN_PASS --account-mail=$DRUPAL_ADMIN_EMAIL --db-url=mysql://$DRUPAL_DATABASE_USER:$DRUPAL_DATABASE_PASS@$DATABASE_ENDPOINT/drupaldb --site-name="$DRUPAL_SITE_NAME"
+chmod -R 755 /var/www/html
+
+
+# Configure HTTPD 
+echo "AddHandler php5-script .php" >> /etc/httpd/conf/httpd.conf
+echo "AddType text/html .php" >> /etc/httpd/conf/httpd.conf
+sed -i -e 's/AllowOverride\ None/AllowOverride\ All/g' /etc/httpd/conf/httpd.conf
+service httpd restart
+
+
+# Install core Islandora modules
+wget https://raw.githubusercontent.com/fsulib/islandora7x_aws/master/UserData/core_islandora_modules.txt -O /tmp/core_islandora_modules.txt
+while read line
+do
+	  cd /var/www/html/sites/all/modules/
+	    git clone https://github.com/Islandora/$line
+	      # /root/.composer/vendor/bin/drush -y --root=/var/www/html en $line
+      done < /tmp/core_islandora_modules.txt
+
+      # Download tuque library and enable libraries module
+      cd /var/www/html/sites/all/libraries
+      git clone https://github.com/Islandora/tuque.git
+      cd /var/www/html
+      /root/.composer/vendor/bin/drush en libraries -y
+
+      # Set Fedora URL and enable Islandora
+      /root/.composer/vendor/bin/drush vset islandora_base_url "http://10.50.0.102:8080/fedora"
+      /root/.composer/vendor/bin/drush --user=1 en islandora -y
+
+      # Enable the Basic Collection module
+      /root/.composer/vendor/bin/drush --user=1 en islandora_basic_collection -y
+
+      # Enable the Basic Image module
+      /root/.composer/vendor/bin/drush dl imagemagick
+      /root/.composer/vendor/bin/drush en imagemagick -y
+      /root/.composer/vendor/bin/drush --user=1 en islandora_basic_image -y
+
+      # Run custom provisioning
+      wget $CUSTOM_SH_SCRIPT_URL -O /tmp/custom.sh
+      chmod +x /tmp/custom.sh
+      sh /tmp/custom.sh
+
+      # Final refresh of system before exiting
+      /root/.composer/vendor/bin/drush --root=/var/www/html --uri=default -y cc all
+      service httpd restart
+
+
 chmod -R 755 /var/www/html
 
 
