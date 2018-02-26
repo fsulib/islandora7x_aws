@@ -103,8 +103,7 @@ cp /root/filter-drupal.xml "$FEDORA_HOME"/server/config
 cd /root
 wget http://downloads.sourceforge.net/fedora-commons/fedoragsearch-2.8.zip
 unzip fedoragsearch-2.8.zip
-cd fedoragsearch-2.8
-cp -v fedoragsearch.war /var/lib/tomcat7/webapps
+cp -v fedoragsearch-2.8/fedoragsearch.war /var/lib/tomcat7/webapps
 wget https://raw.githubusercontent.com/fsulib/islandora7x_aws/master/UserData/fedora-users.xml
 perl -i -p -e 's/GSearchPass/$ENV{FEDORA_ADMIN_PASS}/g' fedora-users.xml
 /bin/cp -f fedora-users.xml $FEDORA_HOME/server/config
