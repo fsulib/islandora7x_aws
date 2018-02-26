@@ -109,7 +109,7 @@ wget https://raw.githubusercontent.com/fsulib/islandora7x_aws/master/UserData/fe
 perl -i -p -e 's/GSearchPass/$ENV{FEDORA_ADMIN_PASS}/g' fedora-users.xml
 /bin/cp -f fedora-users.xml $FEDORA_HOME/server/config
 wget https://raw.githubusercontent.com/fsulib/islandora7x_aws/master/UserData/fgsconfig-basic-for-islandora.properties
-perl -i -p -e 's/fedoraAdminPass/$ENv{FEDORA_ADMIN_PASS}/g' fgsconfig-basic-for-islandora.properties
+perl -i -p -e 's/fedoraAdminPass/$ENV{FEDORA_ADMIN_PASS}/g' fgsconfig-basic-for-islandora.properties
 /bin/cp -f fgsconfig-basic-for-islandora.properties /var/lib/tomcat7/webapps/fedoragsearch/FgsConfig
 
 service tomcat7 restart
