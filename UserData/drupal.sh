@@ -77,6 +77,7 @@ cd /var/www/html/sites/all/modules/
 git clone https://github.com/Islandora/islandora.git
 git clone https://github.com/Islandora/islandora_solution_pack_collection.git
 git clone https://github.com/Islandora/islandora_solution_pack_image.git
+sleep 200
 
 # Set up Islandora core configuration
 git clone https://github.com/Islandora/tuque.git /var/www/html/sites/all/libraries/tuque
