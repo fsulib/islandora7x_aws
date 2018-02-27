@@ -67,12 +67,16 @@ sed -i -e 's/AllowOverride\ None/AllowOverride\ All/g' /etc/httpd/conf/httpd.con
 service httpd restart
 
 # Install core Islandora modules
-wget https://raw.githubusercontent.com/fsulib/islandora7x_aws/master/UserData/core_islandora_modules.txt -O /tmp/core_islandora_modules.txt
-while read line
-do
-  cd /var/www/html/sites/all/modules/
-  git clone https://github.com/Islandora/$line
-done < /tmp/core_islandora_modules.txt
+#wget https://raw.githubusercontent.com/fsulib/islandora7x_aws/master/UserData/core_islandora_modules.txt -O /tmp/core_islandora_modules.txt
+#while read line
+#do
+#  cd /var/www/html/sites/all/modules/
+#  git clone https://github.com/Islandora/$line
+#done < /tmp/core_islandora_modules.txt
+cd /var/www/html/sites/all/modules/
+git clone https://github.com/Islandora/islandora.git
+git clone https://github.com/Islandora/islandora_solution_pack_collection.git
+git clone https://github.com/Islandora/islandora_solution_pack_image.git
 
 # Set up Islandora core configuration
 git clone https://github.com/Islandora/tuque.git /var/www/html/sites/all/libraries/tuque
