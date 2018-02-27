@@ -78,10 +78,10 @@ service httpd restart
 #done < /tmp/core_islandora_modules.txt
 
 # Download tuque library and enable libraries module
-#cd /var/www/html/sites/all/libraries
+cd /var/www/html/sites/all/libraries
 git clone https://github.com/Islandora/tuque.git /var/www/html/sites/all/libraries/tuque
 cd /var/www/html
-/root/.composer/vendor/bin/drush --root=/var/www/html --uri=default --user=1 -y en libraries
+/root/.composer/vendor/bin/drush --user=1 en libraries -y
 
 # Set Fedora URL and enable Islandora
 git clone https://github.com/Islandora/islandora.git /var/www/html/sites/all/modules/islandora
@@ -101,7 +101,7 @@ git clone https://github.com/Islandora/islandora_solution_pack_image.git /var/ww
 # Run custom provisioning
 wget $CUSTOM_SH_SCRIPT_URL -O /tmp/custom.sh
 chmod +x /tmp/custom.sh
-sh /tmp/custom.sh
+#sh /tmp/custom.sh
 
 # Final refresh of system before exiting
 /root/.composer/vendor/bin/drush --root=/var/www/html --uri=default -y cc all
