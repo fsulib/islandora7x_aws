@@ -111,6 +111,7 @@ perl -i -p -e 's/GSearchPass/$ENV{FEDORA_ADMIN_PASS}/g' fedora-users.xml
 /bin/cp -f fedora-users.xml $FEDORA_HOME/server/config
 
 service tomcat7 restart >> /root/installs.txt 2>&1
+sleep 45
 
 # Configure Fedora GSearch
 wget https://raw.githubusercontent.com/fsulib/islandora7x_aws/master/UserData/fgsconfig-basic-for-islandora.properties
