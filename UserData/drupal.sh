@@ -31,8 +31,7 @@ rm -rf /tmp/home
 
 # Set timezone
 rm -f /etc/localtime
-cd /etc
-ln -s /usr/share/zoneinfo/US/Eastern localtime
+ln -s /usr/share/zoneinfo/US/Eastern /etc/localtime
 
 
 # Run updates & installations
@@ -75,20 +74,16 @@ do
   git clone https://github.com/Islandora/$line
 done < /tmp/core_islandora_modules.txt
 
-# Download tuque library and enable libraries module
+# Set up Islandora core configuration
 git clone https://github.com/Islandora/tuque.git /var/www/html/sites/all/libraries/tuque
-#cd /var/www/html
-#/root/.composer/vendor/bin/drush --user=1 en libraries -y 
 /root/.composer/vendor/bin/drush --user=1 --root=/var/www/html --uri=default -y en libraries
-
-# Set Fedora URL and enable Islandora
 /root/.composer/vendor/bin/drush --user=1 --root=/var/www/html --uri=default -y vset islandora_base_url "http://10.50.0.102:8080/fedora"
 /root/.composer/vendor/bin/drush --user=1 --root=/var/www/html --uri=default -y en islandora
 
-# Enable the Basic Collection module
+# Set up Collection SP 
 /root/.composer/vendor/bin/drush --user=1 --root=/var/www/html --uri=default -y en islandora_basic_collection
 
-# Enable the Basic Image module
+# Set up Basic Image SP 
 /root/.composer/vendor/bin/drush --user=1 --root=/var/www/html --uri=default -y en imagemagick
 /root/.composer/vendor/bin/drush --user=1 --root=/var/www/html --uri=default -y en islandora_basic_image
 
