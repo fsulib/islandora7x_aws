@@ -633,70 +633,6 @@
       },
     },
 
-    "Drupal" : {
-      "Type" : "AWS::EC2::Instance",
-      "DependsOn": ["MySQLRDS"],
-      "Properties": {
-        "ImageId" : { "Fn::FindInMap" : [ "AWSRegionArch2AMI", { "Ref" : "AWS::Region" },
-                          { "Fn::FindInMap" : [ "AWSInstanceType2Arch", { "Ref" : "BastionInstanceType" }, "Arch" ] } ] },
-        "InstanceType"   : { "Ref" : "DrupalInstanceType" },
-        "KeyName"        : { "Ref" : "KeyName" },
-        "NetworkInterfaces": [{
-          "DeviceIndex": "0",
-          "PrivateIpAddress": "10.50.0.101",
-          "AssociatePublicIpAddress": "true",
-          "SubnetId": {
-            "Ref": "PublicSubnet1"
-          },
-          "GroupSet": [
-            { "Ref": "PrivateSSHSecurityGroup" },
-            { "Ref": "WebServerSecurityGroup" }
-          ]
-        }],
-        "BlockDeviceMappings" : [
-          {
-            "DeviceName" : "/dev/sdb",
-            "Ebs" : {
-              "VolumeSize" : "10",
-              "DeleteOnTermination" : "true",
-            }
-          },
-          {
-            "DeviceName" : "/dev/sdc",
-            "Ebs" : {
-              "VolumeSize" : "5",
-              "DeleteOnTermination" : "true",
-            }
-          }
-        ],
-        "Tags": [{
-          "Key": "Name",
-          "Value": "Drupal Server"
-        }],  
-        "UserData" : {
-          "Fn::Base64": {
-            "Fn::Join": [
-              "", [
-               "#!/bin/bash \n",
-               "export DATABASE_ENDPOINT=", { "Fn::GetAtt": ["MySQLRDS", "Endpoint.Address"] }, "\n", 
-               "export DATABASE_ROOT_USER=", { "Ref" : "DatabaseRootUser" }, "\n",
-               "export DATABASE_ROOT_PASS=", { "Ref" : "DatabaseRootPass" }, "\n",
-               "export DRUPAL_DATABASE_USER=", { "Ref" : "DrupalDatabaseUser" }, "\n",
-               "export DRUPAL_DATABASE_PASS=", { "Ref" : "DrupalDatabasePass" }, "\n",
-               "export DRUPAL_ADMIN_USER=", { "Ref" : "DrupalAdminUser" }, "\n",
-               "export DRUPAL_ADMIN_PASS=", { "Ref" : "DrupalAdminPass" }, "\n",
-               "export DRUPAL_ADMIN_EMAIL=", { "Ref" : "DrupalAdminEmail" }, "\n",
-               "export DRUPAL_SITE_NAME=\"", { "Ref" : "DrupalSiteName" }, "\"\n",
-               "export CUSTOM_SH_SCRIPT_URL=", { "Ref" : "CustomShScriptUrl" }, "\n",
-               "wget https://raw.githubusercontent.com/fsulib/islandora7x_aws/master/UserData/drupal.sh -O /root/drupal.sh \n",
-               "sh /root/drupal.sh > /root/build-log.txt 2>&1"
-              ]
-            ]
-          }
-        },
-      },
-    },
-
     "Fedora" : {
       "Type" : "AWS::EC2::Instance",
       "DependsOn": ["MySQLRDS"],
@@ -754,6 +690,70 @@
                 "export TOMCAT_MANAGER_PASS=", { "Ref" : "TomcatManagerPass" }, "\n",
                 "wget https://raw.githubusercontent.com/fsulib/islandora7x_aws/master/UserData/fedora.sh -O /root/fedora.sh \n",
                 "sh /root/fedora.sh > /root/build-log.txt 2>&1"
+              ]
+            ]
+          }
+        },
+      },
+    },
+
+    "Drupal" : {
+      "Type" : "AWS::EC2::Instance",
+      "DependsOn": ["MySQLRDS", "Fedora"],
+      "Properties": {
+        "ImageId" : { "Fn::FindInMap" : [ "AWSRegionArch2AMI", { "Ref" : "AWS::Region" },
+                          { "Fn::FindInMap" : [ "AWSInstanceType2Arch", { "Ref" : "BastionInstanceType" }, "Arch" ] } ] },
+        "InstanceType"   : { "Ref" : "DrupalInstanceType" },
+        "KeyName"        : { "Ref" : "KeyName" },
+        "NetworkInterfaces": [{
+          "DeviceIndex": "0",
+          "PrivateIpAddress": "10.50.0.101",
+          "AssociatePublicIpAddress": "true",
+          "SubnetId": {
+            "Ref": "PublicSubnet1"
+          },
+          "GroupSet": [
+            { "Ref": "PrivateSSHSecurityGroup" },
+            { "Ref": "WebServerSecurityGroup" }
+          ]
+        }],
+        "BlockDeviceMappings" : [
+          {
+            "DeviceName" : "/dev/sdb",
+            "Ebs" : {
+              "VolumeSize" : "10",
+              "DeleteOnTermination" : "true",
+            }
+          },
+          {
+            "DeviceName" : "/dev/sdc",
+            "Ebs" : {
+              "VolumeSize" : "5",
+              "DeleteOnTermination" : "true",
+            }
+          }
+        ],
+        "Tags": [{
+          "Key": "Name",
+          "Value": "Drupal Server"
+        }],  
+        "UserData" : {
+          "Fn::Base64": {
+            "Fn::Join": [
+              "", [
+               "#!/bin/bash \n",
+               "export DATABASE_ENDPOINT=", { "Fn::GetAtt": ["MySQLRDS", "Endpoint.Address"] }, "\n", 
+               "export DATABASE_ROOT_USER=", { "Ref" : "DatabaseRootUser" }, "\n",
+               "export DATABASE_ROOT_PASS=", { "Ref" : "DatabaseRootPass" }, "\n",
+               "export DRUPAL_DATABASE_USER=", { "Ref" : "DrupalDatabaseUser" }, "\n",
+               "export DRUPAL_DATABASE_PASS=", { "Ref" : "DrupalDatabasePass" }, "\n",
+               "export DRUPAL_ADMIN_USER=", { "Ref" : "DrupalAdminUser" }, "\n",
+               "export DRUPAL_ADMIN_PASS=", { "Ref" : "DrupalAdminPass" }, "\n",
+               "export DRUPAL_ADMIN_EMAIL=", { "Ref" : "DrupalAdminEmail" }, "\n",
+               "export DRUPAL_SITE_NAME=\"", { "Ref" : "DrupalSiteName" }, "\"\n",
+               "export CUSTOM_SH_SCRIPT_URL=", { "Ref" : "CustomShScriptUrl" }, "\n",
+               "wget https://raw.githubusercontent.com/fsulib/islandora7x_aws/master/UserData/drupal.sh -O /root/drupal.sh \n",
+               "sh /root/drupal.sh > /root/build-log.txt 2>&1"
               ]
             ]
           }

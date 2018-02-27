@@ -107,8 +107,16 @@ unzip fedoragsearch-2.8.1.zip
 wget https://raw.githubusercontent.com/fsulib/islandora7x_aws/master/UserData/fedora-users.xml
 perl -i -p -e 's/GSearchPass/$ENV{FEDORA_ADMIN_PASS}/g' fedora-users.xml
 /bin/cp -f fedora-users.xml $FEDORA_HOME/server/config
+
+service tomcat7 restart
+
+# Configure Fedora GSearch
 wget https://raw.githubusercontent.com/fsulib/islandora7x_aws/master/UserData/fgsconfig-basic-for-islandora.properties
 perl -i -p -e 's/fedoraAdminPass/$ENV{FEDORA_ADMIN_PASS}/g' fgsconfig-basic-for-islandora.properties
 /bin/cp -f fgsconfig-basic-for-islandora.properties /var/lib/tomcat7/webapps/fedoragsearch/FgsConfig
+cd /var/lib/tomcat7/webapps/fedoragsearch/FgsConfig 
+perl -i -p -e 's/fgsconfig-basic.properties/fgsconfig-basic-for-islandora.properties/g' fgsconfig-basic.xml
+ant -f fgsconfig-basic.xml
+rm -f /var/lib/tomcat7/webapps/fedoragsearch/WEB-INF/lib/log4j-over-slf4j-1.5.10.jar
 
 service tomcat7 restart
