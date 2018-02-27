@@ -37,6 +37,7 @@ yum -y remove java-1.7.0-openjdk >> /root/updates.txt
 yum -y install mysql java-1.8.0 > /root/installs.txt
 yum -y install tomcat7 >> /root/installs.txt
 yum -y install git >> /root/installs.txt
+yum -y install ant >> /root/installs.txt
 
 # Configure MySQL
 mysql --user="${DATABASE_ROOT_USER}" --password="${DATABASE_ROOT_PASS}" --host="${DATABASE_ENDPOINT}" --execute="CREATE DATABASE fedoradb;"
