@@ -67,35 +67,31 @@ echo "AddType text/html .php" >> /etc/httpd/conf/httpd.conf
 sed -i -e 's/AllowOverride\ None/AllowOverride\ All/g' /etc/httpd/conf/httpd.conf
 service httpd restart
 
-
 # Install core Islandora modules
-#wget https://raw.githubusercontent.com/fsulib/islandora7x_aws/master/UserData/core_islandora_modules.txt -O /tmp/core_islandora_modules.txt
-#while read line
-#do
-#  cd /var/www/html/sites/all/modules/
-#  git clone https://github.com/Islandora/$line
+wget https://raw.githubusercontent.com/fsulib/islandora7x_aws/master/UserData/core_islandora_modules.txt -O /tmp/core_islandora_modules.txt
+while read line
+do
+  cd /var/www/html/sites/all/modules/
+  git clone https://github.com/Islandora/$line
   # /root/.composer/vendor/bin/drush -y --root=/var/www/html en $line
-#done < /tmp/core_islandora_modules.txt
+done < /tmp/core_islandora_modules.txt
 
 # Download tuque library and enable libraries module
 cd /var/www/html/sites/all/libraries
-git clone https://github.com/Islandora/tuque.git /var/www/html/sites/all/libraries/tuque
+git clone https://github.com/Islandora/tuque.git
 cd /var/www/html
-/root/.composer/vendor/bin/drush --user=1 en libraries -y
+/root/.composer/vendor/bin/drush en libraries -y
 
 # Set Fedora URL and enable Islandora
-git clone https://github.com/Islandora/islandora.git /var/www/html/sites/all/modules/islandora
 /root/.composer/vendor/bin/drush vset islandora_base_url "http://10.50.0.102:8080/fedora"
 /root/.composer/vendor/bin/drush --user=1 en islandora -y
 
 # Enable the Basic Collection module
-git clone https://github.com/Islandora/islandora_solution_pack_collection.git /var/www/html/sites/all/modules/islandora_solution_pack_collection
 /root/.composer/vendor/bin/drush --user=1 en islandora_basic_collection -y
 
 # Enable the Basic Image module
 /root/.composer/vendor/bin/drush dl imagemagick
 /root/.composer/vendor/bin/drush en imagemagick -y
-git clone https://github.com/Islandora/islandora_solution_pack_image.git /var/www/html/sites/all/modules/islandora_solution_pack_image
 /root/.composer/vendor/bin/drush --user=1 en islandora_basic_image -y
 
 # Run custom provisioning
