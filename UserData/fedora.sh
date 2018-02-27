@@ -115,10 +115,11 @@ service tomcat7 restart >> /root/installs.txt 2>&1
 # Configure Fedora GSearch
 wget https://raw.githubusercontent.com/fsulib/islandora7x_aws/master/UserData/fgsconfig-basic-for-islandora.properties
 perl -i -p -e 's/fedoraAdminPass/$ENV{FEDORA_ADMIN_PASS}/g' fgsconfig-basic-for-islandora.properties
-/bin/cp -f fgsconfig-basic-for-islandora.properties /var/lib/tomcat7/webapps/fedoragsearch/FgsConfig
-cd /var/lib/tomcat7/webapps/fedoragsearch/FgsConfig 
-perl -i -p -e 's/fgsconfig-basic.properties/fgsconfig-basic-for-islandora.properties/g' fgsconfig-basic.xml
-ant -f fgsconfig-basic.xml
-rm -f /var/lib/tomcat7/webapps/fedoragsearch/WEB-INF/lib/log4j-over-slf4j-1.5.10.jar
+/bin/cp -f fgsconfig-basic-for-islandora.properties /var/lib/tomcat7/webapps/fedoragsearch/FgsConfig >> /root/debugGsearch.txt 2>&1
+cd /var/lib/tomcat7/webapps/fedoragsearch/FgsConfig >> /root/debugGsearch.txt 2>&1
+perl -i -p -e 's/fgsconfig-basic.properties/fgsconfig-basic-for-islandora.properties/g' fgsconfig-basic.xml >> /root/debugGsearch.txt 2>&1
+ant -f fgsconfig-basic.xml >> /root/debugGsearch.txt 2>&1
+rm -f /var/lib/tomcat7/webapps/fedoragsearch/WEB-INF/lib/log4j-over-slf4j-1.5.10.jar >> /root/debugGsearch.txt 2>&1
+echo "Done with Gsearch configuration" >> /root/debugGsearch.txt 2>&1
 
-service tomcat7 restart
+service tomcat7 restart >> /root/debugGsearch.txt 2>&1
