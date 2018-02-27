@@ -70,14 +70,14 @@ service httpd restart
 
 # Set up core Islandora module 
 git clone https://github.com/Islandora/tuque.git /var/www/html/sites/all/libraries/tuque >> /root/installs.islandora.txt 2>&1
-/root/.composer/vendor/bin/drush --root=/var/www/html --uri=default en libraries -y >> /root/installs.islandora.txt 2>&1
+/root/.composer/vendor/bin/drush --root=/var/www/html --uri=default --user=1 en libraries -y >> /root/installs.islandora.txt 2>&1
 git clone https://github.com/Islandora/islandora.git /var/www/html/sites/all/modules/islandora >> /root/installs.islandora.txt 2>&1
+/root/.composer/vendor/bin/drush --root=/var/www/html --uri=default --user=1 vset islandora_base_url "http://10.50.0.102:8080/fedora" >> /root/installs.islandora.txt 2>&1
 /root/.composer/vendor/bin/drush --root=/var/www/html --uri=default --user=1 en islandora -y >> /root/installs.islandora.txt 2>&1
-/root/.composer/vendor/bin/drush --root=/var/www/html --uri=default vset islandora_base_url "http://10.50.0.102:8080/fedora" >> /root/installs.islandora.txt 2>&1
 
 # Set up Islandora Solr 
 #git clone https://github.com/Islandora/islandora_solr_search.git /var/www/html/sites/all/modules/islandora_solr_search >> /root/installs.islandora.txt 2>&1
-#/root/.composer/vendor/bin/drush --root=/var/www/html --uri=default en islandora_solr -y >> /root/installs.islandora.txt 2>&1
+#/root/.composer/vendor/bin/drush --root=/var/www/html --uri=default --user=1 en islandora_solr -y >> /root/installs.islandora.txt 2>&1
 
 # Set up the Basic Collection
 git clone https://github.com/Islandora/islandora_solution_pack_collection.git /var/www/html/sites/all/modules/islandora_solution_pack_collection >> /root/installs.islandora.txt 2>&1
