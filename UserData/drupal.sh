@@ -67,26 +67,27 @@ echo "AddType text/html .php" >> /etc/httpd/conf/httpd.conf
 sed -i -e 's/AllowOverride\ None/AllowOverride\ All/g' /etc/httpd/conf/httpd.conf
 service httpd restart
 
+# Download tuque library and enable libraries module
+cd /var/www/html/sites/all/libraries
+git clone https://github.com/Islandora/tuque.git
+cd /var/www/html
+/root/.composer/vendor/bin/drush en libraries -y
 
-# Set up core Islandora module 
-git clone https://github.com/Islandora/tuque.git /var/www/html/sites/all/libraries/tuque >> /root/installs.islandora.txt 2>&1
-/root/.composer/vendor/bin/drush --root=/var/www/html --uri=default --user=1 en libraries -y >> /root/installs.islandora.txt 2>&1
-git clone https://github.com/Islandora/islandora.git /var/www/html/sites/all/modules/islandora >> /root/installs.islandora.txt 2>&1
-/root/.composer/vendor/bin/drush --root=/var/www/html --uri=default --user=1 vset islandora_base_url "http://10.50.0.102:8080/fedora" >> /root/installs.islandora.txt 2>&1
-/root/.composer/vendor/bin/drush --root=/var/www/html --uri=default --user=1 en islandora -y >> /root/installs.islandora.txt 2>&1
+# Set Fedora URL and enable Islandora
+cd /var/www/html/sites/all/modules
+git clone https://github.com/Islandora/islandora.git
+/root/.composer/vendor/bin/drush vset islandora_base_url "http://10.50.0.102:8080/fedora"
+/root/.composer/vendor/bin/drush --user=1 en islandora -y
 
-# Set up Islandora Solr 
-#git clone https://github.com/Islandora/islandora_solr_search.git /var/www/html/sites/all/modules/islandora_solr_search >> /root/installs.islandora.txt 2>&1
-#/root/.composer/vendor/bin/drush --root=/var/www/html --uri=default --user=1 en islandora_solr -y >> /root/installs.islandora.txt 2>&1
+# Enable the Basic Collection module
+git clone https://github.com/Islandora/islandora_solution_pack_collection.git
+/root/.composer/vendor/bin/drush --user=1 en islandora_basic_collection -y
 
-# Set up the Basic Collection
-git clone https://github.com/Islandora/islandora_solution_pack_collection.git /var/www/html/sites/all/modules/islandora_solution_pack_collection >> /root/installs.islandora.txt 2>&1
-/root/.composer/vendor/bin/drush --root=/var/www/html --uri=default --user=1 en islandora_basic_collection -y >> /root/installs.islandora.txt 2>&1
-
-# Set up Basic Image
-/root/.composer/vendor/bin/drush --root=/var/www/html --uri=default en imagemagick -y >> /root/installs.islandora.txt 2>&1
-git clone https://github.com/Islandora/islandora_solution_pack_image.git /var/www/html/sites/all/modules/islandora_solution_pack_image >> /root/installs.islandora.txt 2>&1
-/root/.composer/vendor/bin/drush --root=/var/www/html --uri=default --user=1 en islandora_basic_image -y >> /root/installs.islandora.txt 2>&1
+# Enable the Basic Image module
+/root/.composer/vendor/bin/drush dl imagemagick
+/root/.composer/vendor/bin/drush en imagemagick -y
+git clone https://github.com/Islandora/islandora_solution_pack_image.git
+/root/.composer/vendor/bin/drush --user=1 en islandora_basic_image -y
 
 
 # Run custom provisioning
