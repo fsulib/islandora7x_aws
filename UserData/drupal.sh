@@ -73,31 +73,24 @@ while read line
 do
   cd /var/www/html/sites/all/modules/
   git clone https://github.com/Islandora/$line
-  # /root/.composer/vendor/bin/drush -y --root=/var/www/html en $line
 done < /tmp/core_islandora_modules.txt
 
 # Download tuque library and enable libraries module
 git clone https://github.com/Islandora/tuque.git /var/www/html/sites/all/libraries/tuque
-cd /var/www/html
-/root/.composer/vendor/bin/drush --user=1 en libraries -y 
+#cd /var/www/html
+#/root/.composer/vendor/bin/drush --user=1 en libraries -y 
+/root/.composer/vendor/bin/drush --user=1 --root=/var/www/html --uri=default -y en libraries
 
 # Set Fedora URL and enable Islandora
-#cd /var/www/html/sites/all/modules
-#git clone https://github.com/Islandora/islandora.git
-/root/.composer/vendor/bin/drush vset islandora_base_url "http://10.50.0.102:8080/fedora"
-/root/.composer/vendor/bin/drush --user=1 en islandora -y
+/root/.composer/vendor/bin/drush --user=1 --root=/var/www/html --uri=default -y vset islandora_base_url "http://10.50.0.102:8080/fedora"
+/root/.composer/vendor/bin/drush --user=1 --root=/var/www/html --uri=default -y en islandora
 
 # Enable the Basic Collection module
-#cd /var/www/html/sites/all/modules
-#git clone https://github.com/Islandora/islandora_solution_pack_collection.git
-/root/.composer/vendor/bin/drush --user=1 en islandora_basic_collection -y
+/root/.composer/vendor/bin/drush --user=1 --root=/var/www/html --uri=default -y en islandora_basic_collection
 
 # Enable the Basic Image module
-#cd /var/www/html/sites/all/modules
-#git clone https://github.com/Islandora/islandora_solution_pack_image.git
-/root/.composer/vendor/bin/drush dl imagemagick
-/root/.composer/vendor/bin/drush en imagemagick -y
-/root/.composer/vendor/bin/drush --user=1 en islandora_basic_image -y
+/root/.composer/vendor/bin/drush --user=1 --root=/var/www/html --uri=default -y en imagemagick
+/root/.composer/vendor/bin/drush --user=1 --root=/var/www/html --uri=default -y en islandora_basic_image
 
 # Run custom provisioning
 wget $CUSTOM_SH_SCRIPT_URL -O /tmp/custom.sh
@@ -105,5 +98,5 @@ chmod +x /tmp/custom.sh
 #sh /tmp/custom.sh
 
 # Final refresh of system before exiting
-/root/.composer/vendor/bin/drush --root=/var/www/html --uri=default -y cc all
+/root/.composer/vendor/bin/drush --user=1 --root=/var/www/html --uri=default -y cc all
 service httpd restart
