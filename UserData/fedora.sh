@@ -121,6 +121,8 @@ cd /var/lib/tomcat7/webapps/fedoragsearch/FgsConfig >> /root/debugGsearch.txt 2>
 perl -i -p -e 's/fgsconfig-basic.properties/fgsconfig-basic-for-islandora.properties/g' fgsconfig-basic.xml >> /root/debugGsearch.txt 2>&1
 ant -f fgsconfig-basic.xml >> /root/debugGsearch.txt 2>&1
 rm -f /var/lib/tomcat7/webapps/fedoragsearch/WEB-INF/lib/log4j-over-slf4j-1.5.10.jar >> /root/debugGsearch.txt 2>&1
+cd /var/lib/tomcat7/webapps/fedoragsearch/WEB-INF/classes/fgsconfigFinal/index/FgsIndex >> /root/debugGsearch.txt 2>&1
+perl -i -p -e 's/dk.defxws.fgssolr.OperationsImpl/dk.defxws.fgssolrremote.OperationsImpl/g' index.properties >> /root/debugGsearch.txt 2>&1
 echo "Done with Gsearch configuration" >> /root/debugGsearch.txt 2>&1
 
 service tomcat7 restart >> /root/debugGsearch.txt 2>&1
