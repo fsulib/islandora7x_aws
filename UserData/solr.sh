@@ -22,11 +22,8 @@ ln -s /usr/share/zoneinfo/US/Eastern localtime
 
 # Run updates & installations 
 yum -y update > /root/updates.txt
-yum -y remove java-1.7.0-openjdk >> /root/updates.txt
-yum -y install java-1.8.0 >> /root/updates.txt
 
 # Install Solr and configure it to auto start on boot
 cd /root
-wget http://mirror.cc.columbia.edu/pub/software/apache/lucene/solr/7.2.1/solr-7.2.1.tgz
-tar xzf solr-7.2.1.tgz solr-7.2.1/bin/install_solr_service.sh --strip-components=2
-./install_solr_service.sh solr-7.2.1.tgz >> /root/updates.txt
+wget https://archive.apache.org/dist/lucene/solr/4.6.1/solr-4.6.1.tgz
+wget https://raw.githubusercontent.com/fcrepo3/gsearch/master/FgsConfig/FgsConfigIndexTemplate/Solr/conf/schema-4.6.1-for-fgs-2.8.xml
