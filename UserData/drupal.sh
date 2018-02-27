@@ -76,8 +76,8 @@ git clone https://github.com/Islandora/islandora.git /var/www/html/sites/all/mod
 /root/.composer/vendor/bin/drush --root=/var/www/html --uri=default vset islandora_base_url "http://10.50.0.102:8080/fedora" >> /root/installs.islandora.txt 2>&1
 
 # Set up Islandora Solr 
-git clone https://github.com/Islandora/islandora_solr_search.git /var/www/html/sites/all/modules/islandora_solr_search >> /root/installs.islandora.txt 2>&1
-/root/.composer/vendor/bin/drush --root=/var/www/html --uri=default en islandora_solr -y >> /root/installs.islandora.txt 2>&1
+#git clone https://github.com/Islandora/islandora_solr_search.git /var/www/html/sites/all/modules/islandora_solr_search >> /root/installs.islandora.txt 2>&1
+#/root/.composer/vendor/bin/drush --root=/var/www/html --uri=default en islandora_solr -y >> /root/installs.islandora.txt 2>&1
 
 # Set up the Basic Collection
 git clone https://github.com/Islandora/islandora_solution_pack_collection.git /var/www/html/sites/all/modules/islandora_solution_pack_collection >> /root/installs.islandora.txt 2>&1
@@ -92,7 +92,7 @@ git clone https://github.com/Islandora/islandora_solution_pack_image.git /var/ww
 # Run custom provisioning
 wget $CUSTOM_SH_SCRIPT_URL -O /tmp/custom.sh
 chmod +x /tmp/custom.sh
-sh /tmp/custom.sh >> /root/custom.provisioning.txt 2>&1
+#sh /tmp/custom.sh >> /root/custom.provisioning.txt 2>&1
 
 # Final refresh of system before exiting
 /root/.composer/vendor/bin/drush --root=/var/www/html --uri=default -y cc all
