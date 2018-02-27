@@ -37,6 +37,7 @@ yum -y remove java-1.7.0-openjdk >> /root/updates.txt
 yum -y install mysql java-1.8.0 > /root/installs.txt
 yum -y install tomcat7 >> /root/installs.txt
 yum -y install git >> /root/installs.txt
+yum -y install ant >> /root/installs.txt
 
 # Configure MySQL
 mysql --user="${DATABASE_ROOT_USER}" --password="${DATABASE_ROOT_PASS}" --host="${DATABASE_ENDPOINT}" --execute="CREATE DATABASE fedoradb;"
@@ -104,11 +105,12 @@ cd /root
 wget https://github.com/discoverygarden/gsearch/releases/download/v2.8.1/fedoragsearch-2.8.1.zip
 unzip fedoragsearch-2.8.1.zip
 /bin/cp -v fedoragsearch-2.8.1/fedoragsearch.war /var/lib/tomcat7/webapps
+chown tomcat:tomcat /var/lib/tomcat7/webapps/fedoragsearch.war
 wget https://raw.githubusercontent.com/fsulib/islandora7x_aws/master/UserData/fedora-users.xml
 perl -i -p -e 's/GSearchPass/$ENV{FEDORA_ADMIN_PASS}/g' fedora-users.xml
 /bin/cp -f fedora-users.xml $FEDORA_HOME/server/config
 
-service tomcat7 restart
+service tomcat7 restart >> /root/installs.txt 2>&1
 
 # Configure Fedora GSearch
 wget https://raw.githubusercontent.com/fsulib/islandora7x_aws/master/UserData/fgsconfig-basic-for-islandora.properties
