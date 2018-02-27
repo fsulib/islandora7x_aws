@@ -79,6 +79,7 @@ done < /tmp/core_islandora_modules.txt
 # Download tuque library and enable libraries module
 git clone https://github.com/Islandora/tuque.git /var/www/html/sites/all/libraries/tuque
 /root/.composer/vendor/bin/drush --user=1 en libraries -y 
+cd /var/www/html
 
 # Set Fedora URL and enable Islandora
 #cd /var/www/html/sites/all/modules
