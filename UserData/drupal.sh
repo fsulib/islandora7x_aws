@@ -66,36 +66,36 @@ echo "AddType text/html .php" >> /etc/httpd/conf/httpd.conf
 sed -i -e 's/AllowOverride\ None/AllowOverride\ All/g' /etc/httpd/conf/httpd.conf
 service httpd restart
 
-# Install core Islandora modules
-#wget https://raw.githubusercontent.com/fsulib/islandora7x_aws/master/UserData/core_islandora_modules.txt -O /tmp/core_islandora_modules.txt
-#while read line
+
+# Pause to wait for Fedora until it is ready to recieve Islandora required objects
+#until [ -f /tmp/fedora.ready ]
 #do
-#  cd /var/www/html/sites/all/modules/
-#  git clone https://github.com/Islandora/$line
-#done < /tmp/core_islandora_modules.txt
-cd /var/www/html/sites/all/modules/
-git clone https://github.com/Islandora/islandora.git
-git clone https://github.com/Islandora/islandora_solution_pack_collection.git
-git clone https://github.com/Islandora/islandora_solution_pack_image.git
+#  echo "Waiting for Fedora to finish..." >> /root/islandora.setup.txt 2>&1
+#  sleep 5
+#done
 sleep 200
 
+
 # Set up Islandora core configuration
-git clone https://github.com/Islandora/tuque.git /var/www/html/sites/all/libraries/tuque
-/root/.composer/vendor/bin/drush --user=1 --root=/var/www/html --uri=default -y en libraries
-/root/.composer/vendor/bin/drush --user=1 --root=/var/www/html --uri=default -y vset islandora_base_url "http://10.50.0.102:8080/fedora"
-/root/.composer/vendor/bin/drush --user=1 --root=/var/www/html --uri=default -y en islandora
+git clone https://github.com/Islandora/tuque.git /var/www/html/sites/all/libraries/tuque >> /root/islandora.setup.txt 2>&1
+/root/.composer/vendor/bin/drush --user=1 --root=/var/www/html --uri=default -y en libraries >> /root/islandora.setup.txt 2>&1
+git clone https://github.com/Islandora/islandora.git /var/www/html/sites/all/modules/islandora >> /root/islandora.setup.txt 2>&1
+/root/.composer/vendor/bin/drush --user=1 --root=/var/www/html --uri=default -y vset islandora_base_url "http://10.50.0.102:8080/fedora" >> /root/islandora.setup.txt 2>&1
+/root/.composer/vendor/bin/drush --user=1 --root=/var/www/html --uri=default -y en islandora >> /root/islandora.setup.txt 2>&1
 
 # Set up Collection SP 
-/root/.composer/vendor/bin/drush --user=1 --root=/var/www/html --uri=default -y en islandora_basic_collection
+git clone https://github.com/Islandora/islandora_solution_pack_collection.git /var/www/html/sites/all/modules/islandora_solution_pack_collection >> /root/islandora.setup.txt 2>&1
+/root/.composer/vendor/bin/drush --user=1 --root=/var/www/html --uri=default -y en islandora_basic_collection >> /root/islandora.setup.txt 2>&1
 
 # Set up Basic Image SP 
-/root/.composer/vendor/bin/drush --user=1 --root=/var/www/html --uri=default -y en imagemagick
-/root/.composer/vendor/bin/drush --user=1 --root=/var/www/html --uri=default -y en islandora_basic_image
+/root/.composer/vendor/bin/drush --user=1 --root=/var/www/html --uri=default -y en imagemagick >> /root/islandora.setup.txt 2>&1
+git clone https://github.com/Islandora/islandora_solution_pack_image.git /var/www/html/sites/all/modules/islandora_solution_pack_image >> /root/islandora.setup.txt 2>&1
+/root/.composer/vendor/bin/drush --user=1 --root=/var/www/html --uri=default -y en islandora_basic_image >> /root/islandora.setup.txt 2>&1
 
 # Run custom provisioning
 wget $CUSTOM_SH_SCRIPT_URL -O /tmp/custom.sh
 chmod +x /tmp/custom.sh
-#sh /tmp/custom.sh
+#sh /tmp/custom.sh >> /root/custom.setup.txt 2>&1
 
 # Final refresh of system before exiting
 /root/.composer/vendor/bin/drush --user=1 --root=/var/www/html --uri=default -y cc all
