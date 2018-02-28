@@ -104,20 +104,26 @@ git clone https://github.com/Islandora/islandora_solution_pack_collection.git /v
 /root/.composer/vendor/bin/drush --user=1 --root=/var/www/html --uri=default -y en islandora_basic_collection >> /root/islandora.setup.txt 2>&1
 
 # Set up Basic Image SP 
-yum -y install imagemagick >> /root/islandora.setup.txt 2>&1
+yum -y install ImageMagick >> /root/islandora.setup.txt 2>&1
 /root/.composer/vendor/bin/drush --user=1 --root=/var/www/html --uri=default -y en imagemagick >> /root/islandora.setup.txt 2>&1
-# vset full path of imagick convert
+/root/.composer/vendor/bin/drush --user=1 --root=/var/www/html --uri=default -y vset image_toolkit /usr/bin/convert >> /root/islandora.setup.txt 2>&1
+/root/.composer/vendor/bin/drush --user=1 --root=/var/www/html --uri=default -y vset imagemagick_convert /usr/bin/convert >> /root/islandora.setup.txt 2>&1
 git clone https://github.com/Islandora/islandora_solution_pack_image.git /var/www/html/sites/all/modules/islandora_solution_pack_image >> /root/islandora.setup.txt 2>&1
 /root/.composer/vendor/bin/drush --user=1 --root=/var/www/html --uri=default -y en islandora_basic_image >> /root/islandora.setup.txt 2>&1
 
 # Set up PDF SP 
-yum -y install imagemagick >> /root/islandora.setup.txt 2>&1
+yum -y install ImageMagick poppler-utils ghostscript  >> /root/islandora.setup.txt 2>&1
 /root/.composer/vendor/bin/drush --user=1 --root=/var/www/html --uri=default -y en imagemagick >> /root/islandora.setup.txt 2>&1
-# vset full path of imagick convert
-# install pdftotext
-# install ghostscript
+/root/.composer/vendor/bin/drush --user=1 --root=/var/www/html --uri=default -y vset image_toolkit /usr/bin/convert >> /root/islandora.setup.txt 2>&1
+/root/.composer/vendor/bin/drush --user=1 --root=/var/www/html --uri=default -y vset imagemagick_convert /usr/bin/convert >> /root/islandora.setup.txt 2>&1
 git clone https://github.com/Islandora/islandora_solution_pack_pdf.git /var/www/html/sites/all/modules/islandora_solution_pack_pdf >> /root/islandora.setup.txt 2>&1
 /root/.composer/vendor/bin/drush --user=1 --root=/var/www/html --uri=default -y en islandora_pdf >> /root/islandora.setup.txt 2>&1
+/root/.composer/vendor/bin/drush --user=1 --root=/var/www/html --uri=default -y vset islandora_pdf_allow_text_upload 1 >> /root/islandora.setup.txt 2>&1
+/root/.composer/vendor/bin/drush --user=1 --root=/var/www/html --uri=default -y vset islandora_pdf_create_fulltext 1 >> /root/islandora.setup.txt 2>&1
+/root/.composer/vendor/bin/drush --user=1 --root=/var/www/html --uri=default -y vset islandora_pdf_create_pdfa 1 >> /root/islandora.setup.txt 2>&1
+/root/.composer/vendor/bin/drush --user=1 --root=/var/www/html --uri=default -y vset islandora_pdf_path_to_gs /usr/bin/gs >> /root/islandora.setup.txt 2>&1
+/root/.composer/vendor/bin/drush --user=1 --root=/var/www/html --uri=default -y vset islandora_pdf_path_to_pdftotext /usr/bin/pdftotext >> /root/islandora.setup.txt 2>&1
+php -r "print json_encode(array('default' => 'islandora_pdfjs'));"  | /root/.composer/vendor/bin/drush --root=/var/www/html --uri=default --user=1 vset --format=json islandora_pdf_viewers -
 
 
 # Run custom provisioning
