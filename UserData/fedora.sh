@@ -125,7 +125,8 @@ cd /var/lib/tomcat7/webapps/fedoragsearch/WEB-INF/classes/fgsconfigFinal/index/F
 perl -i -p -e 's/dk.defxws.fgssolr.OperationsImpl/dk.defxws.fgssolrremote.OperationsImpl/g' index.properties >> /root/debugGsearch.txt 2>&1
 echo "Done with Gsearch configuration" >> /root/debugGsearch.txt 2>&1
 
-service tomcat7 restart >> /root/debugGsearch.txt 2>&1
+# Signal to Drupal server that Fedora is ready
+mkdir /var/lib/tomcat7/webapps/readycheck
+echo "<html><head><title>Ready!</title></head><body><h1>Ready!</h1></body></html>" > /var/lib/tomcat7/webapps/readycheck/index.html
 
-# Signal to Drupal server that Fedora is done provisioning
-#ssh ec2-user@10.50.0.101 "touch /tmp/fedora.ready"
+service tomcat7 restart >> /root/debugGsearch.txt 2>&1
