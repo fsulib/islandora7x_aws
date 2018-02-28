@@ -30,13 +30,24 @@ export CATALINA_HOME=/var/lib/tomcat7
 export CATALINA_BASE=/var/lib/tomcat7
 export CLASSPATH=$JAVA_HOME/lib
 
-# Install Solr and configure it to auto start on boot
+# Download and Install Solr
 cd /root
 wget https://archive.apache.org/dist/lucene/solr/4.6.1/solr-4.6.1.tgz >> /root/solrinstall.txt 2>&1
 wget https://raw.githubusercontent.com/fcrepo3/gsearch/master/FgsConfig/FgsConfigIndexTemplate/Solr/conf/schema-4.6.1-for-fgs-2.8.xml >> /root/solrinstall.txt 2>&1
+wget https://raw.githubusercontent.com/fsulib/islandora7x_aws/master/UserData/solr.xml
 tar -xzvf solr-4.6.1.tgz >> /root/solrinstall.txt 2>&1
 cp -v /root/solr-4.6.1/dist/solr-4.6.1.war /var/lib/tomcat7/webapps/solr.war >> /root/solrinstall.txt 2>&1
-/usr/bin/unzip -o /var/lib/tomcat7/webapps/solr.war -d /var/lib/tomcat7/webapps/solr/
+chown tomcat:tomcat /var/lib/tomcat7/webapps/solr.war >> /root/solrinstall.txt 2>&1
+
+service tomcat7 restart >> /root/solrinstall.txt 2>&1
+sleep 45
+
+# Configure the local solr folder
 mkdir -p /usr/local/solr >> /root/solrinstall.txt 2>&1
 cp -r /root/solr-4.6.1/example/solr/. /usr/local/solr/ >> /root/solrinstall.txt 2>&1
-cp -r /root/solr-4.6.1/example/lib/ext/. /var/lib/tomcat7/webapps/solr/WEB-INF/lib/
+cp -r /root/solr-4.6.1/example/lib/ext/. /var/lib/tomcat7/webapps/solr/WEB-INF/lib/ >> /root/solrinstall.txt 2>&1
+cp /root/solr.xml /etc/tomcat7/Catalina/localhost/ >> /root/solrinstall.txt 2>&1
+/bin/cp -f /root/schema-4.6.1-for-fgs-2.8.xml /usr/local/solr/collection1/conf/schema.xml >> /root/solrinstall.txt 2>&1
+chown -R tomcat:tomcat /usr/local/solr >> /root/solrinstall.txt 2>&1
+service tomcat7 restart >> /root/solrinstall.txt 2>&1
+echo "Done with Solr configuration" >> /root/solrinstall.txt 2>&1
