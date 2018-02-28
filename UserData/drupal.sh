@@ -68,7 +68,7 @@ service httpd restart
 
 
 # Pause to wait for Fedora until it is ready to recieve Islandora required objects
-until [ $(curl -sSL -o /dev/null -w "%{http_code}" http://10.50.0.102/readycheck/) == "200" ] 
+until [ $(curl -sSL -o /dev/null -w "%{http_code}" http://10.50.0.102:8080/readycheck/) == "200" ] 
 do
   echo "Waiting for Fedora to finish building..." >> /root/islandora.setup.txt 2>&1
   sleep 5
