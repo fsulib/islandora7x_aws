@@ -36,7 +36,7 @@ ln -s /usr/share/zoneinfo/US/Eastern /etc/localtime
 
 # Run updates & installations
 yum -y update > /root/updates.txt
-yum -y install httpd mysql ImageMagick git > /root/installs.txt
+yum -y install httpd mysql git > /root/installs.txt
 yum -y install php php-devel php-gd php-xml php-soap php-mysql php-mbstring > /root/installs.php.txt
 
 
@@ -83,14 +83,42 @@ git clone https://github.com/Islandora/islandora.git /var/www/html/sites/all/mod
 /root/.composer/vendor/bin/drush --user=1 --root=/var/www/html --uri=default -y vset islandora_base_url "http://10.50.0.102:8080/fedora" >> /root/islandora.setup.txt 2>&1
 /root/.composer/vendor/bin/drush --user=1 --root=/var/www/html --uri=default -y en islandora >> /root/islandora.setup.txt 2>&1
 
+
+# Set up Batch
+git clone https://github.com/Islandora/islandora_batch.git /var/www/html/sites/all/modules/islandora_batch >> /root/islandora.setup.txt 2>&1
+/root/.composer/vendor/bin/drush --user=1 --root=/var/www/html --uri=default -y en islandora_batch
+
+
+# Set up PDF.js
+mkdir /tmp/pdfjs
+wget -O /tmp/pdfjs/pdfjs.zip https://github.com/mozilla/pdf.js/releases/download/v1.9.426/pdfjs-1.9.426-dist.zip 
+unzip /tmp/pdfjs/pdfjs.zip
+rm /tmp/pdfjs/pdfjs.zip
+mv /tmp/pdfjs /var/www/html/sites/all/libraries/
+git clone https://github.com/Islandora/islandora_pdfjs.git /var/www/html/sites/all/modules/islandora_pdfjs >> /root/islandora.setup.txt 2>&1
+/root/.composer/vendor/bin/drush --user=1 --root=/var/www/html --uri=default -y en islandora_pdfjs
+
+
 # Set up Collection SP 
 git clone https://github.com/Islandora/islandora_solution_pack_collection.git /var/www/html/sites/all/modules/islandora_solution_pack_collection >> /root/islandora.setup.txt 2>&1
 /root/.composer/vendor/bin/drush --user=1 --root=/var/www/html --uri=default -y en islandora_basic_collection >> /root/islandora.setup.txt 2>&1
 
 # Set up Basic Image SP 
+yum -y install imagemagick >> /root/islandora.setup.txt 2>&1
 /root/.composer/vendor/bin/drush --user=1 --root=/var/www/html --uri=default -y en imagemagick >> /root/islandora.setup.txt 2>&1
+# vset full path of imagick convert
 git clone https://github.com/Islandora/islandora_solution_pack_image.git /var/www/html/sites/all/modules/islandora_solution_pack_image >> /root/islandora.setup.txt 2>&1
 /root/.composer/vendor/bin/drush --user=1 --root=/var/www/html --uri=default -y en islandora_basic_image >> /root/islandora.setup.txt 2>&1
+
+# Set up PDF SP 
+yum -y install imagemagick >> /root/islandora.setup.txt 2>&1
+/root/.composer/vendor/bin/drush --user=1 --root=/var/www/html --uri=default -y en imagemagick >> /root/islandora.setup.txt 2>&1
+# vset full path of imagick convert
+# install pdftotext
+# install ghostscript
+git clone https://github.com/Islandora/islandora_solution_pack_pdf.git /var/www/html/sites/all/modules/islandora_solution_pack_pdf >> /root/islandora.setup.txt 2>&1
+/root/.composer/vendor/bin/drush --user=1 --root=/var/www/html --uri=default -y en islandora_pdf >> /root/islandora.setup.txt 2>&1
+
 
 # Run custom provisioning
 wget $CUSTOM_SH_SCRIPT_URL -O /tmp/custom.sh
