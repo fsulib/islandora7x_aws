@@ -39,3 +39,4 @@ cp -v /root/solr-4.6.1/dist/solr-4.6.1.war /var/lib/tomcat7/webapps/solr.war >> 
 /usr/bin/unzip -o /var/lib/tomcat7/webapps/solr.war -d /var/lib/tomcat7/webapps/solr/
 mkdir -p /usr/local/solr >> /root/solrinstall.txt 2>&1
 cp -r /root/solr-4.6.1/example/solr/. /usr/local/solr/ >> /root/solrinstall.txt 2>&1
+cp -r /root/solr-4.6.1/example/lib/ext/. /var/lib/tomcat7/webapps/solr/WEB-INF/lib/
