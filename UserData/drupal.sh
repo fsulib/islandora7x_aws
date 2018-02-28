@@ -106,7 +106,7 @@ git clone https://github.com/Islandora/islandora_solution_pack_collection.git /v
 # Set up Basic Image SP 
 yum -y install ImageMagick >> /root/islandora.setup.txt 2>&1
 /root/.composer/vendor/bin/drush --user=1 --root=/var/www/html --uri=default -y en imagemagick >> /root/islandora.setup.txt 2>&1
-/root/.composer/vendor/bin/drush --user=1 --root=/var/www/html --uri=default -y vset image_toolkit /usr/bin/convert >> /root/islandora.setup.txt 2>&1
+/root/.composer/vendor/bin/drush --user=1 --root=/var/www/html --uri=default -y vset image_toolkit imagemagick >> /root/islandora.setup.txt 2>&1
 /root/.composer/vendor/bin/drush --user=1 --root=/var/www/html --uri=default -y vset imagemagick_convert /usr/bin/convert >> /root/islandora.setup.txt 2>&1
 git clone https://github.com/Islandora/islandora_solution_pack_image.git /var/www/html/sites/all/modules/islandora_solution_pack_image >> /root/islandora.setup.txt 2>&1
 /root/.composer/vendor/bin/drush --user=1 --root=/var/www/html --uri=default -y en islandora_basic_image >> /root/islandora.setup.txt 2>&1
@@ -114,7 +114,7 @@ git clone https://github.com/Islandora/islandora_solution_pack_image.git /var/ww
 # Set up PDF SP 
 yum -y install ImageMagick poppler-utils ghostscript  >> /root/islandora.setup.txt 2>&1
 /root/.composer/vendor/bin/drush --user=1 --root=/var/www/html --uri=default -y en imagemagick >> /root/islandora.setup.txt 2>&1
-/root/.composer/vendor/bin/drush --user=1 --root=/var/www/html --uri=default -y vset image_toolkit /usr/bin/convert >> /root/islandora.setup.txt 2>&1
+/root/.composer/vendor/bin/drush --user=1 --root=/var/www/html --uri=default -y vset image_toolkit imagemagick >> /root/islandora.setup.txt 2>&1
 /root/.composer/vendor/bin/drush --user=1 --root=/var/www/html --uri=default -y vset imagemagick_convert /usr/bin/convert >> /root/islandora.setup.txt 2>&1
 git clone https://github.com/Islandora/islandora_solution_pack_pdf.git /var/www/html/sites/all/modules/islandora_solution_pack_pdf >> /root/islandora.setup.txt 2>&1
 /root/.composer/vendor/bin/drush --user=1 --root=/var/www/html --uri=default -y en islandora_pdf >> /root/islandora.setup.txt 2>&1
