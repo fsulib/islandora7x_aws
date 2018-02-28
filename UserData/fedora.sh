@@ -126,3 +126,6 @@ perl -i -p -e 's/dk.defxws.fgssolr.OperationsImpl/dk.defxws.fgssolrremote.Operat
 echo "Done with Gsearch configuration" >> /root/debugGsearch.txt 2>&1
 
 service tomcat7 restart >> /root/debugGsearch.txt 2>&1
+
+# Signal to Drupal server that Fedora is done provisioning
+#ssh ec2-user@10.50.0.101 "touch /tmp/fedora.ready"
