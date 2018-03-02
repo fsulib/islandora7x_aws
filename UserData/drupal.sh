@@ -84,11 +84,60 @@ git clone https://github.com/Islandora/islandora.git /var/www/html/sites/all/mod
 /root/.composer/vendor/bin/drush --user=1 --root=/var/www/html --uri=default -y vset islandora_base_url "http://10.50.0.102:8080/fedora" >> /root/islandora.setup.txt 2>&1
 /root/.composer/vendor/bin/drush --user=1 --root=/var/www/html --uri=default -y en islandora >> /root/islandora.setup.txt 2>&1
 
+echo "Setting up PHP Libs module..." >> /root/islandora.setup.txt 2>&1
+git clone https://github.com/Islandora/php_lib.git /var/www/html/sites/all/modules/php_lib >> /root/islandora.setup.txt 2>&1
+/root/.composer/vendor/bin/drush --user=1 --root=/var/www/html --uri=default -y en php_lib >> /root/islandora.setup.txt 2>&1
+
+echo "Setting up Islandora Checksum & Checksum Checker modules (not enabled)..." >> /root/islandora.setup.txt 2>&1
+git clone https://github.com/Islandora/islandora_checksum.git /var/www/html/sites/all/modules/islandora_checksum >> /root/islandora.setup.txt 2>&1
+git clone https://github.com/Islandora/islandora_checksum_checker.git /var/www/html/sites/all/modules/islandora_checksum_checker >> /root/islandora.setup.txt 2>&1
+
+echo "Setting up Islandora PREMIS module (not enabled)..." >> /root/islandora.setup.txt 2>&1
+git clone https://github.com/Islandora/islandora_premis.git /var/www/html/sites/all/modules/islandora_premis >> /root/islandora.setup.txt 2>&1
+
+echo "Setting up Islandora Pathauto module (not enabled)..." >> /root/islandora.setup.txt 2>&1
+git clone https://github.com/Islandora/islandora_pathauto.git /var/www/html/sites/all/modules/islandora_pathauto >> /root/islandora.setup.txt 2>&1
+
+echo "Setting up Islandora Populator module (not enabled)..." >> /root/islandora.setup.txt 2>&1
+git clone https://github.com/Islandora/islandora_populator.git /var/www/html/sites/all/modules/islandora_populator >> /root/islandora.setup.txt 2>&1
+
+echo "Setting up Islandora PREMIS module (not enabled)..." >> /root/islandora.setup.txt 2>&1
+git clone https://github.com/Islandora/islandora_premis.git /var/www/html/sites/all/modules/islandora_premis >> /root/islandora.setup.txt 2>&1
+
+echo "Setting up Islandora Simple Workflow module (not enabled)..." >> /root/islandora.setup.txt 2>&1
+git clone https://github.com/Islandora/islandora_simple_workflow.git /var/www/html/sites/all/modules/islandora_simple_workflow >> /root/islandora.setup.txt 2>&1
+
+echo "Setting up Islandora Basic Collection Solution Pack module..." >> /root/islandora.setup.txt 2>&1
+git clone https://github.com/Islandora/islandora_solution_pack_collection.git /var/www/html/sites/all/modules/islandora_solution_pack_collection >> /root/islandora.setup.txt 2>&1
+/root/.composer/vendor/bin/drush --user=1 --root=/var/www/html --uri=default -y en islandora_basic_collection >> /root/islandora.setup.txt 2>&1
+
+echo "Setting up Islandora Usage Stats module..." >> /root/islandora.setup.txt 2>&1
+git clone https://github.com/Islandora/islandora_usage_stats.git /var/www/html/sites/all/modules/islandora_usage_stats >> /root/islandora.setup.txt 2>&1
+/root/.composer/vendor/bin/drush --user=1 --root=/var/www/html --uri=default -y en islandora_usage_stats >> /root/islandora.setup.txt 2>&1
+
+echo "Setting up Islandora Importer module..." >> /root/islandora.setup.txt 2>&1
+git clone https://github.com/Islandora/islandora_importer.git /var/www/html/sites/all/modules/islandora_importer >> /root/islandora.setup.txt 2>&1
+/root/.composer/vendor/bin/drush --user=1 --root=/var/www/html --uri=default -y en islandora_importer >> /root/islandora.setup.txt 2>&1
 
 echo "Setting up Islandora Batch module..." >> /root/islandora.setup.txt 2>&1
 git clone https://github.com/Islandora/islandora_batch.git /var/www/html/sites/all/modules/islandora_batch >> /root/islandora.setup.txt 2>&1
 /root/.composer/vendor/bin/drush --user=1 --root=/var/www/html --uri=default -y en islandora_batch >> /root/islandora.setup.txt 2>&1
 
+echo "Setting up Islandora XACML Editor module..." >> /root/islandora.setup.txt 2>&1
+git clone https://github.com/Islandora/islandora_xacml_editor.git /var/www/html/sites/all/modules/islandora_xacml_editor >> /root/islandora.setup.txt 2>&1
+/root/.composer/vendor/bin/drush --user=1 --root=/var/www/html --uri=default -y en islandora_xacml_editor >> /root/islandora.setup.txt 2>&1
+
+echo "Setting up Objective Forms module..." >> /root/islandora.setup.txt 2>&1
+git clone https://github.com/Islandora/objective_forms.git /var/www/html/sites/all/modules/objective_forms >> /root/islandora.setup.txt 2>&1
+/root/.composer/vendor/bin/drush --user=1 --root=/var/www/html --uri=default -y en objective_forms >> /root/islandora.setup.txt 2>&1
+
+echo "Setting up Islandora XML Forms module..." >> /root/islandora.setup.txt 2>&1
+git clone https://github.com/Islandora/islandora_xml_forms.git /var/www/html/sites/all/modules/islandora_xml_forms >> /root/islandora.setup.txt 2>&1
+/root/.composer/vendor/bin/drush --user=1 --root=/var/www/html --uri=default -y en islandora_xml_forms >> /root/islandora.setup.txt 2>&1
+
+echo "Setting up Islandora Badges module..." >> /root/islandora.setup.txt 2>&1
+git clone https://github.com/Islandora/islandora_badges.git /var/www/html/sites/all/modules/islandora_badges >> /root/islandora.setup.txt 2>&1
+/root/.composer/vendor/bin/drush --user=1 --root=/var/www/html --uri=default -y en islandora_badges >> /root/islandora.setup.txt 2>&1
 
 echo "Setting up Islandora PDFjs viewer module..." >> /root/islandora.setup.txt 2>&1
 mkdir /tmp/pdfjs >> /root/islandora.setup.txt 2>&1
@@ -98,11 +147,6 @@ rm /tmp/pdfjs/pdfjs.zip >> /root/islandora.setup.txt 2>&1
 mv /tmp/pdfjs /var/www/html/sites/all/libraries/ >> /root/islandora.setup.txt 2>&1
 git clone https://github.com/Islandora/islandora_pdfjs.git /var/www/html/sites/all/modules/islandora_pdfjs >> /root/islandora.setup.txt 2>&1
 /root/.composer/vendor/bin/drush --user=1 --root=/var/www/html --uri=default -y en islandora_pdfjs >> /root/islandora.setup.txt 2>&1
-
-
-echo "Setting up Islandora Basic Collection Solution Pack module..." >> /root/islandora.setup.txt 2>&1
-git clone https://github.com/Islandora/islandora_solution_pack_collection.git /var/www/html/sites/all/modules/islandora_solution_pack_collection >> /root/islandora.setup.txt 2>&1
-/root/.composer/vendor/bin/drush --user=1 --root=/var/www/html --uri=default -y en islandora_basic_collection >> /root/islandora.setup.txt 2>&1
 
 echo "Setting up Islandora Basic Image Solution Pack module..." >> /root/islandora.setup.txt 2>&1
 yum -y install ImageMagick >> /root/islandora.setup.txt 2>&1
