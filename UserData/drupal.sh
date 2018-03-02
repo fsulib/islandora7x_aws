@@ -101,9 +101,6 @@ git clone https://github.com/Islandora/islandora_pathauto.git /var/www/html/site
 echo "Setting up Islandora Populator module (not enabled)..." >> /root/islandora.setup.txt 2>&1
 git clone https://github.com/Islandora/islandora_populator.git /var/www/html/sites/all/modules/islandora_populator >> /root/islandora.setup.txt 2>&1
 
-echo "Setting up Islandora PREMIS module (not enabled)..." >> /root/islandora.setup.txt 2>&1
-git clone https://github.com/Islandora/islandora_premis.git /var/www/html/sites/all/modules/islandora_premis >> /root/islandora.setup.txt 2>&1
-
 echo "Setting up Islandora Simple Workflow module (not enabled)..." >> /root/islandora.setup.txt 2>&1
 git clone https://github.com/Islandora/islandora_simple_workflow.git /var/www/html/sites/all/modules/islandora_simple_workflow >> /root/islandora.setup.txt 2>&1
 
