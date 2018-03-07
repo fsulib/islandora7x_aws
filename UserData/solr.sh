@@ -50,4 +50,12 @@ cp /root/solr.xml /etc/tomcat7/Catalina/localhost/ >> /root/solrinstall.txt 2>&1
 /bin/cp -f /root/schema-4.6.1-for-fgs-2.8.xml /usr/local/solr/collection1/conf/schema.xml >> /root/solrinstall.txt 2>&1
 chown -R tomcat:tomcat /usr/local/solr >> /root/solrinstall.txt 2>&1
 service tomcat7 restart >> /root/solrinstall.txt 2>&1
+sleep 45
+
+# Check for new items every minute
+crontab -l > /root/current_cron.txt >> /root/solrinstall.txt 2>&1
+echo "* * * * * wget http://localhost:8080/solr/update?commit=true > /dev/null 2>&1" >> /root/current_cron.txt 
+crontab /root/current_cron.txt >> /root/solrinstall.txt 2>&1
+
+# Send final message to log
 echo "Done with Solr configuration" >> /root/solrinstall.txt 2>&1
