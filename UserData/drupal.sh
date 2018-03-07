@@ -84,9 +84,31 @@ git clone https://github.com/Islandora/islandora.git /var/www/html/sites/all/mod
 /root/.composer/vendor/bin/drush --user=1 --root=/var/www/html --uri=default -y vset islandora_base_url "http://10.50.0.102:8080/fedora" >> /root/islandora.setup.txt 2>&1
 /root/.composer/vendor/bin/drush --user=1 --root=/var/www/html --uri=default -y en islandora >> /root/islandora.setup.txt 2>&1
 
+echo -e "\nSetting up Islandora Solr module..." >> /root/islandora.setup.txt 2>&1
+git clone https://github.com/Islandora/islandora_solr_search /var/www/html/sites/all/modules/islandora_solr_search 
+/root/.composer/vendor/bin/drush --user=1 --root=/var/www/html --uri=default -y en islandora_solr >> /root/islandora.setup.txt 2>&1
+/root/.composer/vendor/bin/drush --user=1 --root=/var/www/html --uri=default -y vset islandora_solr_url 'http://10.50.0.103:8080/solr' >> /root/islandora.setup.txt 2>&1
+
 echo -e "\nSetting up PHP Libs module..." >> /root/islandora.setup.txt 2>&1
 git clone https://github.com/Islandora/php_lib.git /var/www/html/sites/all/modules/php_lib >> /root/islandora.setup.txt 2>&1
 /root/.composer/vendor/bin/drush --user=1 --root=/var/www/html --uri=default -y en php_lib >> /root/islandora.setup.txt 2>&1
+
+echo -e "\nSetting up Islandora PDFjs viewer module..." >> /root/islandora.setup.txt 2>&1
+mkdir /tmp/pdfjs >> /root/islandora.setup.txt 2>&1
+wget -O /tmp/pdfjs/pdfjs.zip https://github.com/mozilla/pdf.js/releases/download/v1.9.426/pdfjs-1.9.426-dist.zip >> /root/islandora.setup.txt 2>&1
+unzip /tmp/pdfjs/pdfjs.zip >> /root/islandora.setup.txt 2>&1
+rm /tmp/pdfjs/pdfjs.zip >> /root/islandora.setup.txt 2>&1
+mv /tmp/pdfjs /var/www/html/sites/all/libraries/ >> /root/islandora.setup.txt 2>&1
+git clone https://github.com/Islandora/islandora_pdfjs.git /var/www/html/sites/all/modules/islandora_pdfjs >> /root/islandora.setup.txt 2>&1
+/root/.composer/vendor/bin/drush --user=1 --root=/var/www/html --uri=default -y en islandora_pdfjs >> /root/islandora.setup.txt 2>&1
+
+echo -e "\nSetting up Islandora Video.js viewer module..." >> /root/islandora.setup.txt 2>&1
+mkdir /tmp/video-js
+wget -O /tmp/video-js/video-js.zip https://github.com/videojs/video.js/releases/download/v5.10.2/video-js-5.10.2.zip
+unzip /tmp/video-js/video-js.zip
+rm /tmp/video-js/video-js.zip
+git clone https://github.com/Islandora/islandora_videojs /var/www/html/sites/all/modules/islandora_videojs
+/root/.composer/vendor/bin/drush --user=1 --root=/var/www/html --uri=default -y en islandora_videojs >> /root/islandora.setup.txt 2>&1
 
 echo -e "\nSetting up Islandora Checksum & Checksum Checker modules (not enabled)..." >> /root/islandora.setup.txt 2>&1
 git clone https://github.com/Islandora/islandora_checksum.git /var/www/html/sites/all/modules/islandora_checksum >> /root/islandora.setup.txt 2>&1
@@ -138,15 +160,6 @@ echo -e "\nSetting up Islandora Badges module..." >> /root/islandora.setup.txt 2
 git clone https://github.com/Islandora/islandora_badges.git /var/www/html/sites/all/modules/islandora_badges >> /root/islandora.setup.txt 2>&1
 /root/.composer/vendor/bin/drush --user=1 --root=/var/www/html --uri=default -y en islandora_badges >> /root/islandora.setup.txt 2>&1
 
-echo -e "\nSetting up Islandora PDFjs viewer module..." >> /root/islandora.setup.txt 2>&1
-mkdir /tmp/pdfjs >> /root/islandora.setup.txt 2>&1
-wget -O /tmp/pdfjs/pdfjs.zip https://github.com/mozilla/pdf.js/releases/download/v1.9.426/pdfjs-1.9.426-dist.zip >> /root/islandora.setup.txt 2>&1
-unzip /tmp/pdfjs/pdfjs.zip >> /root/islandora.setup.txt 2>&1
-rm /tmp/pdfjs/pdfjs.zip >> /root/islandora.setup.txt 2>&1
-mv /tmp/pdfjs /var/www/html/sites/all/libraries/ >> /root/islandora.setup.txt 2>&1
-git clone https://github.com/Islandora/islandora_pdfjs.git /var/www/html/sites/all/modules/islandora_pdfjs >> /root/islandora.setup.txt 2>&1
-/root/.composer/vendor/bin/drush --user=1 --root=/var/www/html --uri=default -y en islandora_pdfjs >> /root/islandora.setup.txt 2>&1
-
 echo -e "\nSetting up Islandora Basic Image Solution Pack module..." >> /root/islandora.setup.txt 2>&1
 yum -y install ImageMagick >> /root/islandora.setup.txt 2>&1
 /root/.composer/vendor/bin/drush --user=1 --root=/var/www/html --uri=default -y en imagemagick >> /root/islandora.setup.txt 2>&1
@@ -169,6 +182,10 @@ git clone https://github.com/Islandora/islandora_solution_pack_pdf.git /var/www/
 /root/.composer/vendor/bin/drush --user=1 --root=/var/www/html --uri=default -y vset islandora_pdf_path_to_pdftotext /usr/bin/pdftotext >> /root/islandora.setup.txt 2>&1
 php -r "print json_encode(array('default' => 'islandora_pdfjs'));"  | /root/.composer/vendor/bin/drush --root=/var/www/html --uri=default --user=1 vset --format=json islandora_pdf_viewers - >> /root/islandora.setup.txt 2>&1
 
+echo -e "\nSetting up Islandora Compound Solution Pack module..." >> /root/islandora.setup.txt 2>&1
+git clone https://github.com/sebarmeli/JAIL /var/www/html/sites/all/libraries/JAIL
+git clone https://github.com/islandora/islandora_solution_pack_compound /var/www/html/sites/all/islandora_solution_pack_compound
+/root/.composer/vendor/bin/drush --user=1 --root=/var/www/html --uri=default -y en islandora_compound_object >> /root/islandora.setup.txt 2>&1
 
 # Run custom provisioning
 wget $CUSTOM_SH_SCRIPT_URL -O /tmp/custom.sh
