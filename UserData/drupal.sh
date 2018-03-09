@@ -215,15 +215,15 @@ php -r "print json_encode(array('default' => 'islandora_pdfjs'));"  | /root/.com
 
 echo -e "\nSetting up Islandora Compound Solution Pack module..." >> /root/islandora.setup.txt 2>&1
 git clone https://github.com/sebarmeli/JAIL /var/www/html/sites/all/libraries/JAIL
-git clone https://github.com/islandora/islandora_solution_pack_compound /var/www/html/sites/all/islandora_solution_pack_compound
+git clone https://github.com/islandora/islandora_solution_pack_compound /var/www/html/sites/all/modules/islandora_solution_pack_compound >> /root/islandora.setup.txt 2>&1
 /root/.composer/vendor/bin/drush --user=1 --root=/var/www/html --uri=default -y en islandora_compound_object >> /root/islandora.setup.txt 2>&1
 
 echo -e "\nSetting up Islandora Entities Solution Pack module..." >> /root/islandora.setup.txt 2>&1
-git clone https://github.com/islandora/islandora_solution_pack_entities /var/www/html/sites/all/islandora_solution_pack_entities
+git clone https://github.com/islandora/islandora_solution_pack_entities /var/www/html/sites/all/modules/islandora_solution_pack_entities >> /root/islandora.setup.txt 2>&1
 /root/.composer/vendor/bin/drush --user=1 --root=/var/www/html --uri=default -y en islandora_entities >> /root/islandora.setup.txt 2>&1
 
 echo -e "\nSetting up Islandora Scholar & submodules..." >> /root/islandora.setup.txt 2>&1
-git clone https://github.com/islandora/islandora_scholar /var/www/html/sites/all/islandora_scholar
+git clone https://github.com/islandora/islandora_scholar /var/www/html/sites/all/modules/islandora_scholar >> /root/islandora.setup.txt 2>&1
 /root/.composer/vendor/bin/drush --user=1 --root=/var/www/html --uri=default -y en islandora_scholar >> /root/islandora.setup.txt 2>&1
 /root/.composer/vendor/bin/drush --user=1 --root=/var/www/html --uri=default -y en islandora_google_scholar >> /root/islandora.setup.txt 2>&1
 /root/.composer/vendor/bin/drush --user=1 --root=/var/www/html --uri=default -y en islandora_scholar_embargo >> /root/islandora.setup.txt 2>&1
