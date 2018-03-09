@@ -84,14 +84,37 @@ git clone https://github.com/Islandora/islandora.git /var/www/html/sites/all/mod
 /root/.composer/vendor/bin/drush --user=1 --root=/var/www/html --uri=default -y vset islandora_base_url "http://10.50.0.102:8080/fedora" >> /root/islandora.setup.txt 2>&1
 /root/.composer/vendor/bin/drush --user=1 --root=/var/www/html --uri=default -y en islandora >> /root/islandora.setup.txt 2>&1
 
-echo -e "\nSetting up Islandora Solr module..." >> /root/islandora.setup.txt 2>&1
-git clone https://github.com/Islandora/islandora_solr_search /var/www/html/sites/all/modules/islandora_solr_search 
-/root/.composer/vendor/bin/drush --user=1 --root=/var/www/html --uri=default -y en islandora_solr >> /root/islandora.setup.txt 2>&1
-/root/.composer/vendor/bin/drush --user=1 --root=/var/www/html --uri=default -y vset islandora_solr_url 'http://10.50.0.103:8080/solr' >> /root/islandora.setup.txt 2>&1
-
 echo -e "\nSetting up PHP Libs module..." >> /root/islandora.setup.txt 2>&1
 git clone https://github.com/Islandora/php_lib.git /var/www/html/sites/all/modules/php_lib >> /root/islandora.setup.txt 2>&1
 /root/.composer/vendor/bin/drush --user=1 --root=/var/www/html --uri=default -y en php_lib >> /root/islandora.setup.txt 2>&1
+
+echo -e "\nSetting up Islandora Solr module..." >> /root/islandora.setup.txt 2>&1
+git clone https://github.com/Islandora/islandora_solr_search /var/www/html/sites/all/modules/islandora_solr_search >> /root/islandora.setup.txt 2>&1
+/root/.composer/vendor/bin/drush --user=1 --root=/var/www/html --uri=default -y en islandora_solr >> /root/islandora.setup.txt 2>&1
+/root/.composer/vendor/bin/drush --user=1 --root=/var/www/html --uri=default -y vset islandora_solr_url 'http://10.50.0.103:8080/solr' >> /root/islandora.setup.txt 2>&1
+
+echo -e "\nSetting up Islandora Solr Metadata module..." >> /root/islandora.setup.txt 2>&1
+git clone https://github.com/Islandora/islandora_solr_metadata /var/www/html/sites/all/modules/islandora_solr_metadata >> /root/islandora.setup.txt 2>&1
+/root/.composer/vendor/bin/drush --user=1 --root=/var/www/html --uri=default -y en islandora_solr_metadata >> /root/islandora.setup.txt 2>&1
+
+echo -e "\nSetting up Islandora Solr Views module..." >> /root/islandora.setup.txt 2>&1
+git clone https://github.com/Islandora/islandora_solr_views /var/www/html/sites/all/modules/islandora_solr_views >> /root/islandora.setup.txt 2>&1
+/root/.composer/vendor/bin/drush --user=1 --root=/var/www/html --uri=default -y en islandora_solr_views >> /root/islandora.setup.txt 2>&1
+
+echo -e "\nSetting up Islandora Solr Facet Pages module..." >> /root/islandora.setup.txt 2>&1
+git clone https://github.com/Islandora/islandora_solr_facet_pages /var/www/html/sites/all/modules/islandora_solr_facet_pages >> /root/islandora.setup.txt 2>&1
+/root/.composer/vendor/bin/drush --user=1 --root=/var/www/html --uri=default -y en islandora_solr_facet_pages >> /root/islandora.setup.txt 2>&1
+
+echo -e "\nSetting up Islandora OAI module..." >> /root/islandora.setup.txt 2>&1
+git clone https://github.com/Islandora/islandora_oai /var/www/html/sites/all/modules/islandora_oai >> /root/islandora.setup.txt 2>&1
+/root/.composer/vendor/bin/drush --user=1 --root=/var/www/html --uri=default -y en islandora_oai >> /root/islandora.setup.txt 2>&1
+
+echo -e "\nSetting up Islandora XML Sitemap module..." >> /root/islandora.setup.txt 2>&1
+git clone https://github.com/Islandora/islandora_xmlsitemap /var/www/html/sites/all/modules/islandora_xmlsitemap >> /root/islandora.setup.txt 2>&1
+/root/.composer/vendor/bin/drush --user=1 --root=/var/www/html --uri=default -y en xmlsitemap >> /root/islandora.setup.txt 2>&1
+/root/.composer/vendor/bin/drush --user=1 --root=/var/www/html --uri=default -y en xmlsitemap_custom >> /root/islandora.setup.txt 2>&1
+/root/.composer/vendor/bin/drush --user=1 --root=/var/www/html --uri=default -y en islandora_xmlsitemap >> /root/islandora.setup.txt 2>&1
+/root/.composer/vendor/bin/drush --user=1 --root=/var/www/html --uri=default -y core-cron 
 
 echo -e "\nSetting up Islandora PDFjs viewer module..." >> /root/islandora.setup.txt 2>&1
 mkdir /tmp/pdfjs >> /root/islandora.setup.txt 2>&1
@@ -126,6 +149,9 @@ git clone https://github.com/Islandora/islandora_populator.git /var/www/html/sit
 echo -e "\nSetting up Islandora Simple Workflow module (not enabled)..." >> /root/islandora.setup.txt 2>&1
 git clone https://github.com/Islandora/islandora_simple_workflow.git /var/www/html/sites/all/modules/islandora_simple_workflow >> /root/islandora.setup.txt 2>&1
 
+echo -e "\nSetting up Islandora Bookmark module (not enabled)..." >> /root/islandora.setup.txt 2>&1
+git clone https://github.com/Islandora/islandora_bookmark.git /var/www/html/sites/all/modules/islandora_bookmark >> /root/islandora.setup.txt 2>&1
+
 echo -e "\nSetting up Islandora Basic Collection Solution Pack module..." >> /root/islandora.setup.txt 2>&1
 git clone https://github.com/Islandora/islandora_solution_pack_collection.git /var/www/html/sites/all/modules/islandora_solution_pack_collection >> /root/islandora.setup.txt 2>&1
 /root/.composer/vendor/bin/drush --user=1 --root=/var/www/html --uri=default -y en islandora_basic_collection >> /root/islandora.setup.txt 2>&1
@@ -159,6 +185,11 @@ git clone https://github.com/Islandora/islandora_xml_forms.git /var/www/html/sit
 echo -e "\nSetting up Islandora Badges module..." >> /root/islandora.setup.txt 2>&1
 git clone https://github.com/Islandora/islandora_badges.git /var/www/html/sites/all/modules/islandora_badges >> /root/islandora.setup.txt 2>&1
 /root/.composer/vendor/bin/drush --user=1 --root=/var/www/html --uri=default -y en islandora_badges >> /root/islandora.setup.txt 2>&1
+/root/.composer/vendor/bin/drush --user=1 --root=/var/www/html --uri=default -y en islandora_altmetrics >> /root/islandora.setup.txt 2>&1
+/root/.composer/vendor/bin/drush --user=1 --root=/var/www/html --uri=default -y en islandora_scopus >> /root/islandora.setup.txt 2>&1
+/root/.composer/vendor/bin/drush --user=1 --root=/var/www/html --uri=default -y en islandora_wos >> /root/islandora.setup.txt 2>&1
+/root/.composer/vendor/bin/drush --user=1 --root=/var/www/html --uri=default -y en islandora_oadoi >> /root/islandora.setup.txt 2>&1
+/root/.composer/vendor/bin/drush --user=1 --root=/var/www/html --uri=default -y en islandora_crossref_citations >> /root/islandora.setup.txt 2>&1
 
 echo -e "\nSetting up Islandora Basic Image Solution Pack module..." >> /root/islandora.setup.txt 2>&1
 yum -y install ImageMagick >> /root/islandora.setup.txt 2>&1
@@ -186,6 +217,23 @@ echo -e "\nSetting up Islandora Compound Solution Pack module..." >> /root/islan
 git clone https://github.com/sebarmeli/JAIL /var/www/html/sites/all/libraries/JAIL
 git clone https://github.com/islandora/islandora_solution_pack_compound /var/www/html/sites/all/islandora_solution_pack_compound
 /root/.composer/vendor/bin/drush --user=1 --root=/var/www/html --uri=default -y en islandora_compound_object >> /root/islandora.setup.txt 2>&1
+
+echo -e "\nSetting up Islandora Entities Solution Pack module..." >> /root/islandora.setup.txt 2>&1
+git clone https://github.com/islandora/islandora_solution_pack_entities /var/www/html/sites/all/islandora_solution_pack_entities
+/root/.composer/vendor/bin/drush --user=1 --root=/var/www/html --uri=default -y en islandora_entities >> /root/islandora.setup.txt 2>&1
+
+echo -e "\nSetting up Islandora Scholar & submodules..." >> /root/islandora.setup.txt 2>&1
+git clone https://github.com/islandora/islandora_scholar /var/www/html/sites/all/islandora_scholar
+/root/.composer/vendor/bin/drush --user=1 --root=/var/www/html --uri=default -y en islandora_scholar >> /root/islandora.setup.txt 2>&1
+/root/.composer/vendor/bin/drush --user=1 --root=/var/www/html --uri=default -y en islandora_google_scholar >> /root/islandora.setup.txt 2>&1
+/root/.composer/vendor/bin/drush --user=1 --root=/var/www/html --uri=default -y en islandora_scholar_embargo >> /root/islandora.setup.txt 2>&1
+/root/.composer/vendor/bin/drush --user=1 --root=/var/www/html --uri=default -y en islandora_bibliography >> /root/islandora.setup.txt 2>&1
+/root/.composer/vendor/bin/drush --user=1 --root=/var/www/html --uri=default -y en citation_exporter >> /root/islandora.setup.txt 2>&1
+/root/.composer/vendor/bin/drush --user=1 --root=/var/www/html --uri=default -y en islandora_doi >> /root/islandora.setup.txt 2>&1
+/root/.composer/vendor/bin/drush --user=1 --root=/var/www/html --uri=default -y en islandora_pmid >> /root/islandora.setup.txt 2>&1
+/root/.composer/vendor/bin/drush --user=1 --root=/var/www/html --uri=default -y en islandora_ris >> /root/islandora.setup.txt 2>&1
+/root/.composer/vendor/bin/drush --user=1 --root=/var/www/html --uri=default -y en islandora_endnotexml >> /root/islandora.setup.txt 2>&1
+php -r "print json_encode(array('default' => 'islandora_pdfjs'));"  | /root/.composer/vendor/bin/drush --root=/var/www/html --uri=default --user=1 vset --format=json islandora_scholar_viewers - >> /root/islandora.setup.txt 2>&1
 
 # Run custom provisioning
 wget $CUSTOM_SH_SCRIPT_URL -O /tmp/custom.sh
